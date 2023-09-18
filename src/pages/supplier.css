@@ -1,0 +1,32 @@
+/* body {
+    font-family: 'Regular', sans-serif;
+  } */
+
+  /* Suppliers.css */
+  .table-container{
+    max-width: 1500px;
+    margin: auto;
+  }
+  .supp{
+    padding-top: 30px;
+  }
+.page-yellow {
+    background-color: #F1F8E9;
+    height: 100vh;
+  }
+.btn-container{
+    margin-left: 1150px;
+    margin-top: 200px;
+}
+.table-head-container{
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-between;
+}
+.date-container{
+    display: flex;
+}
+.datee{
+    margin-right: 40px;
+}
+  

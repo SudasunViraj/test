@@ -1,0 +1,163 @@
+ // <div className='page-yellow'>
+    //   <div className='table-container'>
+    //     <h1 className='supp' >Suppliers</h1>
+    //     <div className='table-head-container' >
+
+    //       <div>
+    //         <label htmlFor="startDate">Start Date:</label>
+    //         <input
+    //           type="date"
+    //           id="startDate"
+    //           value={startDate}
+    //           onChange={handleStartDateChange}
+    //         />
+    //       </div>
+    //       <div>
+    //         <label htmlFor="endDate">End Date:</label>
+    //           <input
+    //           type="date"
+    //           id="endDate"
+    //           value={endDate}
+    //           onChange={handleEndDateChange}
+    //         />
+    //       </div>
+    //       <div>
+    //         <button
+    //           className="btn btn-primary"
+    //           onClick={handleAddSupplierClick}
+    //         >
+    //           Add Supplier
+    //         </button>
+    //       </div>
+    //     </div>
+    //     <div>
+    //     <table className="table table-striped mt-4">
+    //         {/* Table Header */}
+    //         <thead>
+    //           <tr>
+    //             <th scope="col">#</th>
+    //             <th scope="col">NAME</th>
+    //             <th scope="col">PHONE NUMBER</th>
+    //             <th scope="col">ADDRESS</th>
+    //             <th scope="col">SIGN UP CHANNEL</th>
+    //             <th scope="col">EMAIL</th>
+    //             <th scope="col">REGISTERED DATE</th>
+    //           </tr>
+    //         </thead>
+    //         {/* Table Body */}
+    //         <tbody>
+    //           {suppliers.map((item, index) => (
+    //             <tr key={item.id}>
+    //               <th scope="row">{index + 1}</th>
+    //               <td>{item.name}</td>
+    //               <td>{item.phoneNumber}</td>
+    //               <td>{item.address}</td>
+    //               <td>
+    //                 {item.signUpChannel === 'Online' && (
+    //                   <span style={{ backgroundColor: 'brown', borderRadius: '50px', padding: '5px', color: 'white' }}>
+    //                     {item.signUpChannel}
+    //                   </span>
+    //                 )}
+    //                 {item.signUpChannel === 'In-Store' && (
+    //                   <span style={{ backgroundColor: 'brown', borderRadius: '50px', padding: '5px', color: 'white' }}>
+    //                     {item.signUpChannel}
+    //                   </span>
+    //                 )}
+    //                 {item.signUpChannel !== 'Online' && item.signUpChannel !== 'In-Store' && (
+    //                   <span>{item.signUpChannel}</span>
+    //                 )}
+    //               </td>
+    //               <td>{item.email}</td>
+    //               <td>{item.registeredDate}</td>
+    //             </tr>
+    //           ))}
+    //         </tbody>
+    //       </table>
+    //       <Modal show={showModal} onHide={handleCloseModal}>
+    //     <Modal show={showModal} onHide={handleCloseModal}>
+    //       <Modal.Header closeButton>
+    //         <Modal.Title>Add Supplier</Modal.Title>
+    //       </Modal.Header>
+    //       <Modal.Body>
+    //         <form>
+    //           <div className="mb-3">
+    //             <label htmlFor="name" className="form-label">Name:</label>
+    //             <input
+    //               type="text"
+    //               className="form-control"
+    //               id="name"
+    //               name="name"
+    //               value={newSupplier.name}
+    //               onChange={handleSupplierInputChange}
+    //             />
+    //           </div>
+    //           <div className="mb-3">
+    //             <label htmlFor="phoneNumber" className="form-label">Phone Number:</label>
+    //             <input
+    //               type="text"
+    //               className="form-control"
+    //               id="phoneNumber"
+    //               name="phoneNumber"
+    //               value={newSupplier.phoneNumber}
+    //               onChange={handleSupplierInputChange}
+    //             />
+    //           </div>
+    //           <div className="mb-3">
+    //             <label htmlFor="address" className="form-label">Address:</label>
+    //             <input
+    //               type="text"
+    //               className="form-control"
+    //               id="address"
+    //               name="address"
+    //               value={newSupplier.address}
+    //               onChange={handleSupplierInputChange}
+    //             />
+    //           </div>
+    //           <div className="mb-3">
+    //             <label htmlFor="signUpChannel" className="form-label">Sign Up Channel:</label>
+    //             <input
+    //               type="text"
+    //               className="form-control"
+    //               id="signUpChannel"
+    //               name="signUpChannel"
+    //               value={newSupplier.signUpChannel}
+    //               onChange={handleSupplierInputChange}
+    //             />
+    //           </div>
+    //           <div className="mb-3">
+    //             <label htmlFor="email" className="form-label">Email:</label>
+    //             <input
+    //               type="text"
+    //               className="form-control"
+    //               id="email"
+    //               name="email"
+    //               value={newSupplier.email}
+    //               onChange={handleSupplierInputChange}
+    //             />
+    //           </div>
+    //           <div className="mb-3">
+    //             <label htmlFor="registeredDate" className="form-label">Registered Date:</label>
+    //             <input
+    //               type="date"
+    //               className="form-control"
+    //               id="registeredDate"
+    //               name="registeredDate"
+    //               value={newSupplier.registeredDate}
+    //               onChange={handleSupplierInputChange}
+    //             />
+    //           </div>
+    //         </form>
+    //       </Modal.Body>
+    //       <Modal.Footer>
+    //         <Button variant="secondary" onClick={handleCloseModal}>
+    //           Cancel
+    //         </Button>
+    //         <Button variant="primary" onClick={handleSaveSupplier}>
+    //           Save Supplier
+    //         </Button>
+    //       </Modal.Footer>
+    //     </Modal>
+        
+    //     </div>
+    //   </div>
+    // </div>

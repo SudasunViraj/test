@@ -4,7 +4,7 @@ import Landingpage from "../pages/landingpage";
 import Login from "../pages/login";
 import Employee from "../pages/employee";
 import Suppliers from "../pages/suppliers";
-
+import Products from "../pages/products";
 function Routers() {
   return (
     <div>
@@ -14,6 +14,7 @@ function Routers() {
         <Route path="/login"element={<Login/>}/>
         <Route path="/employee"element={<Employee/>}/>
         <Route path="/suppliers"element={<Suppliers/>}/>
+        <Route path="/products"element={<Products/>}/>
         </Routes>
     </div>
   )

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import image from '../images/Blue Hills Tea.png';
 
 function LandingPage() {
@@ -6,7 +7,7 @@ function LandingPage() {
     <div style={{ backgroundColor: '#F1F8E9', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <div className="container mt-3 text-center">
         <img className="image" src={image} alt="Blue Hills Tea" style={{ marginBottom: '40px' }} />
-        <h1 style={{ marginBottom: '60px' }}>Welcome to Blue Hills Managers' Portal</h1>
+        <h1 style={{ marginBottom: '30px' }}>Welcome to Blue Hills Managers' Portal</h1>
 
         <div className="row">
           <div className="col-md-6 mx-auto">
@@ -15,6 +16,7 @@ function LandingPage() {
                 <h5 className="card-title">Manage Employees</h5>
                 <p className="card-text">You can manage your employees here.</p>
                 <a href="#" className="btn btn-primary">Go to Employee Management</a>
+                <Link to="/employee" className="btn btn-primary">Go to Employee Management</Link>
               </div>
             </div>
           </div>

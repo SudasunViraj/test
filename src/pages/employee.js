@@ -2,6 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faLock, faKey } from '@fortawesome/free-solid-svg-icons';
 
+
+// function employees(){
+
+// }
+
+const pageStyle = {
+  backgroundColor: 'yellow',
+   // Ensure the page covers the entire viewport height
+  display: 'flex',
+  flexDirection: 'column',
+}
+
 const Employee = () => {
   const [employees, setEmployees] = useState([
     {
@@ -30,33 +42,26 @@ const Employee = () => {
   });
 
   const handleDelete = (username) => {
-    // Implement the logic to delete an employee by username
-    // Update the 'employees' state accordingly
+    
   };
 
   const handleEdit = (username) => {
-    // Implement the logic to edit an employee by username
-    // You can open a modal or navigate to an edit page, for example
+    
     console.log(`Editing employee with username: ${username}`);
   };
 
   const handleLock = (username) => {
-    // Implement the logic to edit an employee by username
-    // You can open a modal or navigate to an edit page, for example
+    
     console.log(`Locking employee with username: ${username}`);
   };
 
   const handleKey = (username) => {
-    // Implement the logic to edit an employee by username
-    // You can open a modal or navigate to an edit page, for example
+    
     console.log(`Suspend employee with username: ${username}`);
   };
   const handleAddEmployee = () => {
-    // Add the newEmployee data to the 'employees' state
     setEmployees([...employees, newEmployee]);
-    // Close the modal
     setShowModal(false);
-    // Reset the newEmployee data
     setNewEmployee({
       username: '',
       firstname: '',
@@ -66,17 +71,16 @@ const Employee = () => {
   };
 
   useEffect(() => {
-    // Add this line to set the page background color to yellow when the component mounts
     document.body.classList.add('page-background');
     
-    // Optionally, remove the class when the component unmounts to reset the background color
     return () => {
       document.body.classList.remove('page-background');
     };
   }, []);
 
   return (
-    <div className="container mt-4">
+    <div style={{ paddingTop: '25px', backgroundColor: 'antiquewhite', height: '100vh' ,paddingLeft:'300px',paddingRight:'300px'}}>
+
       <h1>Manage Employee</h1>
 
       {/* Add Employee Button */}

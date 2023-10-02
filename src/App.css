@@ -54,9 +54,27 @@
   background-color: #F1F8E9;
 }
 
+/* App.css */
+
 body {
-  font-family: 'Regular', sans-serif;
+  background-color: yellow;
+  margin: 0;
+  padding: 0;
 }
+
+.container {
+  text-align: center;
+}
+
+/* Add other styles as needed */
+
+/* In your CSS file or component */
+.full-page-background {
+  background-color: #F1F8E9;
+  height: 100vh; /* Set the height to cover the entire viewport */
+}
+
+
 
 
 

@@ -14,22 +14,64 @@ const Product = () => {
 
   const products = [
     {
-      id: 1,
-      category: 'Black Tea',
-      categoryLevel: 'Level 1',
-      visibility: 'Visible',
+      "id": 1,
+      "category": "Black Tea",
+      "categoryLevel": "Main Category",
+      "visibility": "Enabled"
     },
     {
-      id: 2,
-      category: 'Green Tea',
-      categoryLevel: 'Level 2',
-      visibility: 'Hidden',
+      "id": 2,
+      "category": "Green Tea",
+      "categoryLevel": "Main Category",
+      "visibility": "Disabled"
     },
     {
-      id: 3,
-      category: 'Herbal Tea',
-      categoryLevel: 'Level 3',
-      visibility: 'Visible',
+      "id": 3,
+      "category": "Herbal Tea",
+      "categoryLevel": "Main Category",
+      "visibility": "Enabled"
+    },
+    {
+      "id": 4,
+      "category": "Black Tea",
+      "categoryLevel": "Main Category",
+      "visibility": "Enabled"
+    },
+    {
+      "id": 5,
+      "category": "Green Tea",
+      "categoryLevel": "Main Category",
+      "visibility": "Disabled"
+    },
+    {
+      "id": 6,
+      "category": "Herbal Tea",
+      "categoryLevel": "Main Category",
+      "visibility": "Enabled"
+    },
+    {
+      "id": 7,
+      "category": "Black Tea",
+      "categoryLevel": "Main Category",
+      "visibility": "Enabled"
+    },
+    {
+      "id": 8,
+      "category": "Green Tea",
+      "categoryLevel": "Main Category",
+      "visibility": "Disabled"
+    },
+    {
+      "id": 9,
+      "category": "Herbal Tea",
+      "categoryLevel": "Main Category",
+      "visibility": "Enabled"
+    },
+    {
+      "id": 10,
+      "category": "Black Tea",
+      "categoryLevel": "Main Category",
+      "visibility": "Enabled"
     },
     // Add more products here
   ];

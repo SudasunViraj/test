@@ -35,7 +35,7 @@ const Sales = () => {
 
     return (
         <div style={{ paddingTop: '25px', backgroundColor: 'antiquewhite', height: '100vh', paddingLeft: '300px', paddingRight: '300px' }}>
-            <h1>Sales Table</h1>
+            <h1>Sales</h1>
             <table className="table table-striped">
                 <thead>
                     <tr>

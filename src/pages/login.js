@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import image from '../images/Blue Hills Tea.png';
+import { useNavigate } from 'react-router-dom';
+
 
 function Login() {
   return (
@@ -22,12 +24,29 @@ function Login() {
 function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const history = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
-  };
+
+ // const handleSubmit = (e) => {
+ //   e.preventDefault();
+ //   console.log('Email:', email);
+ //   console.log('Password:', password);
+ // };
+
+ const handleSubmit = (e) => {
+  e.preventDefault();
+
+    // Validate user credentials
+    if (email === 'gayathriii99@gmail.com' && password === '12345') {
+      // If the login is successful, navigate to the landing page
+      navigate('/home'); // Use navigate instead of history.push
+    } else {
+      // Display an error message or handle unsuccessful login
+      alert('Invalid credentials. Please try again.');
+    }
+}
+
 
   const formStyle = {
     backgroundColor: 'rgb(139, 195, 74)',

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faLock, faKey } from '@fortawesome/free-solid-svg-icons';
+import '../App.css';
 
 
 // function employees(){
@@ -9,7 +10,6 @@ import { faTrash, faEdit, faLock, faKey } from '@fortawesome/free-solid-svg-icon
 
 const pageStyle = {
   backgroundColor: 'yellow',
-   // Ensure the page covers the entire viewport height
   display: 'flex',
   flexDirection: 'column',
 }
@@ -42,21 +42,21 @@ const Employee = () => {
   });
 
   const handleDelete = (username) => {
-    
+
   };
 
   const handleEdit = (username) => {
-    
+
     console.log(`Editing employee with username: ${username}`);
   };
 
   const handleLock = (username) => {
-    
+
     console.log(`Locking employee with username: ${username}`);
   };
 
   const handleKey = (username) => {
-    
+
     console.log(`Suspend employee with username: ${username}`);
   };
   const handleAddEmployee = () => {
@@ -72,14 +72,14 @@ const Employee = () => {
 
   useEffect(() => {
     document.body.classList.add('page-background');
-    
+
     return () => {
       document.body.classList.remove('page-background');
     };
   }, []);
 
   return (
-    <div style={{ paddingTop: '25px', backgroundColor: 'antiquewhite', height: '100vh' ,paddingLeft:'300px',paddingRight:'300px'}}>
+    <div style={{ paddingTop: '25px', backgroundColor: 'antiquewhite', height: '100vh', paddingLeft: '300px', paddingRight: '300px' }}>
 
       <h1>Manage Employee</h1>
 
@@ -116,28 +116,32 @@ const Employee = () => {
               </td>
               <td className="border">
                 <button
-                  className="btn btn-danger mx-2"
+                  className="btn custom-btn mx-2"
+                  style={{ backgroundColor: '#135e38' }}
                   onClick={() => handleDelete(employee.username)}
                 >
-                  <FontAwesomeIcon icon={faTrash} />
+                  <FontAwesomeIcon icon={faTrash} className="icon-color" />
                 </button>
                 <button
-                  className="btn btn-primary mx-2"
+                  className="btn custom-btn mx-2"
+                  style={{ backgroundColor: '#135e38' }}
                   onClick={() => handleEdit(employee.username)}
                 >
-                  <FontAwesomeIcon icon={faEdit} />
+                  <FontAwesomeIcon icon={faEdit} className="icon-color" />
                 </button>
                 <button
-                  className="btn btn-warning mx-2"
+                  className="btn custom-btn mx-2"
+                  style={{ backgroundColor: '#135e38' }}
                   onClick={() => handleLock(employee.username)}
                 >
-                  <FontAwesomeIcon icon={faLock} />
+                  <FontAwesomeIcon icon={faLock} className="icon-color" />
                 </button>
                 <button
-                  className="btn btn-warning mx-2"
+                  className="btn custom-btn mx-2"
+                  style={{ backgroundColor: '#135e38' }}
                   onClick={() => handleKey(employee.username)}
                 >
-                  <FontAwesomeIcon icon={faKey} />
+                  <FontAwesomeIcon icon={faKey} className="icon-color" />
                 </button>
               </td>
             </tr>
@@ -162,9 +166,10 @@ const Employee = () => {
                 onClick={() => setShowModal(false)}
               ></button>
             </div>
+
             <div className="modal-body">
               <div className="mb-3">
-                <label htmlFor="username" className="form-label">
+                <label htmlFor="username" className="form-label" style={{ textAlign: 'left' }}>
                   Username
                 </label>
                 <input
@@ -175,10 +180,11 @@ const Employee = () => {
                   onChange={(e) =>
                     setNewEmployee({ ...newEmployee, username: e.target.value })
                   }
+                  style={{ textAlign: 'left' }}
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="firstname" className="form-label">
+                <label htmlFor="firstname" className="form-label" style={{ textAlign: 'left' }}>
                   Firstname
                 </label>
                 <input
@@ -189,10 +195,11 @@ const Employee = () => {
                   onChange={(e) =>
                     setNewEmployee({ ...newEmployee, firstname: e.target.value })
                   }
+                  style={{ textAlign: 'left' }}
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="status" className="form-label">
+                <label htmlFor="status" className="form-label" style={{ textAlign: 'left' }}>
                   Status
                 </label>
                 <select
@@ -202,13 +209,14 @@ const Employee = () => {
                   onChange={(e) =>
                     setNewEmployee({ ...newEmployee, status: e.target.value })
                   }
+                  style={{ textAlign: 'left' }}
                 >
                   <option value="Active">Active</option>
                   <option value="Inactive">Inactive</option>
                 </select>
               </div>
               <div className="mb-3">
-                <label htmlFor="usergroups" className="form-label">
+                <label htmlFor="usergroups" className="form-label" style={{ textAlign: 'left' }}>
                   Usergroups
                 </label>
                 <select
@@ -218,12 +226,15 @@ const Employee = () => {
                   onChange={(e) =>
                     setNewEmployee({ ...newEmployee, usergroups: e.target.value })
                   }
+                  style={{ textAlign: 'left' }}
                 >
                   <option value="Group A">Group A</option>
                   <option value="Group B">Group B</option>
                 </select>
               </div>
             </div>
+
+
             <div className="modal-footer">
               <button
                 type="button"
@@ -244,6 +255,7 @@ const Employee = () => {
         </div>
       </div>
     </div>
+    
   );
 };
 

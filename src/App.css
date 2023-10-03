@@ -71,8 +71,18 @@ body {
 /* In your CSS file or component */
 .full-page-background {
   background-color: #F1F8E9;
-  height: 100vh; /* Set the height to cover the entire viewport */
+  height: 100vh;
 }
+
+.icon-color {
+  color: #fffcfc; 
+}
+
+
+
+
+
+
 
 
 

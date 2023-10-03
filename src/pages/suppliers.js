@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import '../pages/supplier.css'; // Import your CSS file if you create a separate CSS file.
+import '../pages/supplier.css';
 
 const Suppliers = () => {
   const [startDate, setStartDate] = useState('');

@@ -39,10 +39,8 @@ function LoginForm() {
 
     // Validate user credentials
     if (email === 'gayathriii99@gmail.com' && password === '12345') {
-      // If the login is successful, navigate to the landing page
-      navigate('/home'); // Use navigate instead of history.push
+      navigate('/home'); 
     } else {
-      // Display an error message or handle unsuccessful login
       alert('Invalid credentials. Please try again.');
     }
 }

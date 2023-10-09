@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import '../pages/supplier.css';
+import axios from 'axios'; 
+
 
 const Suppliers = () => {
   const [startDate, setStartDate] = useState('');
@@ -80,6 +82,7 @@ const Suppliers = () => {
       email: 'alice@example.com',
       registeredDate: '2023-09-22',
     },
+    // Add more supplier data here...
   ]);
 
   const handleStartDateChange = (e) => {
@@ -100,13 +103,17 @@ const Suppliers = () => {
 
   const handleSaveSupplier = () => {
     setShowModal(false);
-    setSuppliers((prevSuppliers) => [
-      ...prevSuppliers,
-      {
-        ...newSupplier,
-        id: prevSuppliers.length + 1,
-      },
-    ]);
+
+    axios.post('add_supplier.php', newSupplier)
+      .then(response => {
+        console.log(response.data); // Display the response from the PHP script
+        // You can also update the state or perform any other actions here
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+    // Clear the newSupplier state
     setNewSupplier({
       name: '',
       phoneNumber: '',
@@ -116,6 +123,7 @@ const Suppliers = () => {
       registeredDate: '',
     });
   };
+
 
   const handleSupplierInputChange = (e) => {
     const { name, value } = e.target;

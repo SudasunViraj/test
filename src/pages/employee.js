@@ -37,12 +37,29 @@ const Employee = () => {
   const [newEmployee, setNewEmployee] = useState({
     username: '',
     firstname: '',
+    lastname: '',
     status: 'Active',
     usergroups: 'Group A',
   });
 
   const handleDelete = (username) => {
+  // Filter out the employee to be deleted from the local state
+  const updatedEmployees = employees.filter(
+    (employee) => employee.username !== username
+  );
 
+  // Send a DELETE request to the PHP script to delete the employee from the database
+  fetch(`delete_employee.php?username=${username}`, {
+    method: 'DELETE',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data); // Handle the response from the server
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+    setEmployees(updatedEmployees); // Update the local state
   };
 
   const handleEdit = (username) => {
@@ -51,6 +68,30 @@ const Employee = () => {
   };
 
   const handleLock = (username) => {
+    const updatedEmployees = employees.map((employee) => {
+      if (employee.username === username) {
+        const updatedEmployee = { ...employee, locked: !employee.locked };
+        fetch(`update_employee.php?username=${username}&locked=${updatedEmployee.locked ? 1 : 0}`, {
+          method: 'PUT',
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data); 
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+        return updatedEmployee;
+      }
+      return employee;
+    });
+
+
+
+
+
+
+    setEmployees(updatedEmployees); 
 
     console.log(`Locking employee with username: ${username}`);
   };
@@ -60,11 +101,36 @@ const Employee = () => {
     console.log(`Suspend employee with username: ${username}`);
   };
   const handleAddEmployee = () => {
+
+  const employeeData = {
+    username: newEmployee.username,
+    firstname: newEmployee.firstname,
+    lastname: newEmployee.lastname, 
+    status: newEmployee.status,
+    usergroups: newEmployee.usergroups,
+  };
+
+  fetch('add_employee.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(employeeData),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data); 
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
     setEmployees([...employees, newEmployee]);
     setShowModal(false);
     setNewEmployee({
       username: '',
       firstname: '',
+      lastname:'',
       status: 'Active',
       usergroups: 'Group A',
     });
@@ -194,6 +260,21 @@ const Employee = () => {
                   value={newEmployee.firstname}
                   onChange={(e) =>
                     setNewEmployee({ ...newEmployee, firstname: e.target.value })
+                  }
+                  style={{ textAlign: 'left' }}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="lastname" className="form-label" style={{ textAlign: 'left' }}>
+                  Lastname
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="firstname"
+                  value={newEmployee.lastname}
+                  onChange={(e) =>
+                    setNewEmployee({ ...newEmployee, lastname: e.target.value })
                   }
                   style={{ textAlign: 'left' }}
                 />

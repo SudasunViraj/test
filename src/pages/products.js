@@ -19,10 +19,79 @@ const Product = () => {
         categoryLevel: '',
         visibility: 'Enabled', // Default value
     });
-    
+    const handleVisibilityChange = (product) => {
+        const productIndex = products.findIndex((p) => p.id === product.id);
+
+        const updatedProduct = { ...product, visibility: 'Disabled' };
+
+        const updatedProducts = [...products];
+        updatedProducts[productIndex] = updatedProduct;
+
+        setProducts(updatedProducts);
+    };
+
 
     const [products, setProducts] = useState([
- 
+        {
+            "id": "Dragonwell",
+            "category": "Green Tea",
+            "categoryLevel": "Main Category",
+            "visibility": "Disabled"
+        },
+        {
+            "id": "Sencha",
+            "category": "Green Tea",
+            "categoryLevel": "Main Category",
+            "visibility": "Disabled"
+        },
+        {
+            "id": "Earl Grey",
+            "category": "Black Tea",
+            "categoryLevel": "Main Category",
+            "visibility": "Disabled"
+        },
+        {
+            "id": "Chamomile",
+            "category": "Herbal Tea",
+            "categoryLevel": "Main Category",
+            "visibility": "Disabled"
+        },
+        {
+            "id": "Jasmine",
+            "category": "Green Tea",
+            "categoryLevel": "Main Category",
+            "visibility": "Disabled"
+        },
+        {
+            "id": "English Breakfast",
+            "category": "Black Tea",
+            "categoryLevel": "Main Category",
+            "visibility": "Disabled"
+        },
+        {
+            "id": "Peppermint",
+            "category": "Herbal Tea",
+            "categoryLevel": "Main Category",
+            "visibility": "Disabled"
+        },
+        {
+            "id": "Oolong",
+            "category": "Semi-oxidized Tea",
+            "categoryLevel": "Main Category",
+            "visibility": "Disabled"
+        },
+        {
+            "id": "Darjeeling",
+            "category": "Black Tea",
+            "categoryLevel": "Main Category",
+            "visibility": "Disabled"
+        },
+        {
+            "id": "Matcha",
+            "category": "Green Tea",
+            "categoryLevel": "Main Category",
+            "visibility": "Disabled"
+        },
     ]);
 
     const openEditModal = (product) => {
@@ -67,23 +136,23 @@ const Product = () => {
     const handleAddFormSubmit = (e) => {
         e.preventDefault();
         const newProductData = {
-            id: products.length + 1, 
+            id: products.length + 1,
             name: newProduct.productId,
             category: newProduct.productCategory,
             categoryLevel: newProduct.categoryLevel,
             visibility: newProduct.visibility,
         };
-    
+
         // Add the new product to the products array
         const updatedProducts = [...products, newProductData];
-    
+
         // Update the products state with the new data
         setProducts(updatedProducts);
-    
+
         // Close the modal
         closeAddModal();
     };
-    const saveDetails=()=>{
+    const saveDetails = () => {
 
     }
 
@@ -160,9 +229,13 @@ const Product = () => {
                                         >
                                             <FontAwesomeIcon icon={faEdit} />
                                         </button>
-                                        <button className="btn custom-button">
+                                        <button
+                                            className="btn custom-button"
+                                            onClick={() => handleVisibilityChange(product)}
+                                        >
                                             <FontAwesomeIcon icon={faBan} />
                                         </button>
+
                                         <button className="btn custom-button">
                                             <FontAwesomeIcon icon={faEllipsisH} />
                                         </button>
@@ -217,6 +290,7 @@ const Product = () => {
                                     onChange={handleAddFormChange}
                                     style={{ width: '950px' }}
                                 >
+                                    <option value="Choose an Option">Choose an Option</option>
                                     <option value="Black Tea">Black Tea</option>
                                     <option value="Green Tea">Green Tea</option>
                                     <option value="Herbal Tea">Herbal Tea</option>
@@ -233,6 +307,7 @@ const Product = () => {
                                     onChange={handleAddFormChange}
                                     style={{ width: '950px' }}
                                 >
+                                    <option value="Choose an Option">Choose an Option</option>
                                     <option value="Main Category">Main Category</option>
                                     <option value="Sub Category">Sub Category</option>
                                 </select>
@@ -247,6 +322,7 @@ const Product = () => {
                                     onChange={handleAddFormChange}
                                     style={{ width: '950px' }}
                                 >
+                                                                        <option value="Choose an option">Choose an option</option>
                                     <option value="Enabled">Enabled</option>
                                     <option value="Disabled">Disabled</option>
                                 </select>
@@ -260,78 +336,78 @@ const Product = () => {
                         </form>
                     </Modal>
 
-                {/* Edit Product Modal */}
-                <Modal
-                    isOpen={isEditModalOpen}
-                    onRequestClose={closeEditModal}
-                    contentLabel="Edit Product Modal"
-                    className="modal-content"
-                >
-                    <div className="modal-header" style={{ display: 'flex', justifyContent: 'center' }}>
-                        <h2>Edit Product</h2>
-                    </div>
-                    <form onSubmit={handleEditFormSubmit} className="mx-auto">
-
-                        <div className="form-group">
-                            <label htmlFor="productName">PRODUCT NAME:</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="productName"
-                                name="name"
-                                value={editedProduct.name}
-                                onChange={handleEditFormChange}
-                                style={{ width: '950px' }}
-
-                            />
+                    {/* Edit Product Modal */}
+                    <Modal
+                        isOpen={isEditModalOpen}
+                        onRequestClose={closeEditModal}
+                        contentLabel="Edit Product Modal"
+                        className="modal-content"
+                    >
+                        <div className="modal-header" style={{ display: 'flex', justifyContent: 'center' }}>
+                            <h2>Edit Product</h2>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="productPrice">PRICE:</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="productPrice"
-                                name="price"
-                                value={editedProduct.price}
-                                onChange={handleEditFormChange}
-                                style={{ width: '950px' }}
+                        <form onSubmit={handleEditFormSubmit} className="mx-auto">
 
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="productDescription">PRODUCT DESCRIPTION:</label>
-                            <textarea
-                                className="form-control"
-                                id="productDescription"
-                                name="description"
-                                value={editedProduct.description}
-                                onChange={handleEditFormChange}
-                                style={{ width: '950px' }}
+                            <div className="form-group">
+                                <label htmlFor="productName">PRODUCT NAME:</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="productName"
+                                    name="name"
+                                    value={editedProduct.name}
+                                    onChange={handleEditFormChange}
+                                    style={{ width: '950px' }}
 
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="productCategory">PRODUCT CATEGORIES:</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="productCategory"
-                                name="category"
-                                value={editedProduct.category}
-                                onChange={handleEditFormChange}
-                                style={{ width: '950px' }}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="productPrice">PRICE:</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="productPrice"
+                                    name="price"
+                                    value={editedProduct.price}
+                                    onChange={handleEditFormChange}
+                                    style={{ width: '950px' }}
 
-                            />
-                        </div>
-                        <button type="submit" className="btn btn-primary">
-                            Save
-                        </button>
-                        <button onClick={closeEditModal} className="btn btn-secondary">
-                            Cancel
-                        </button>
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="productDescription">PRODUCT DESCRIPTION:</label>
+                                <textarea
+                                    className="form-control"
+                                    id="productDescription"
+                                    name="description"
+                                    value={editedProduct.description}
+                                    onChange={handleEditFormChange}
+                                    style={{ width: '950px' }}
 
-                    </form>
-                </Modal>
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="productCategory">PRODUCT CATEGORIES:</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="productCategory"
+                                    name="category"
+                                    value={editedProduct.category}
+                                    onChange={handleEditFormChange}
+                                    style={{ width: '950px' }}
+
+                                />
+                            </div>
+                            <button type="submit" className="btn btn-primary">
+                                Save
+                            </button>
+                            <button onClick={closeEditModal} className="btn btn-secondary">
+                                Cancel
+                            </button>
+
+                        </form>
+                    </Modal>
                 </div>
             </div>
         </div>

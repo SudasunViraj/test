@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 const Sales = () => {
@@ -59,14 +59,50 @@ const Sales = () => {
   };
 
   const handleAddSale = () => {
-    const newId = data.length + 1;
-    const newSaleData = {
-      id: newId,
-      ...newSale,
-    };
-    setData([...data, newSaleData]);
-    handleCloseModal();
+    fetch('insert_sales.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newSale),
+    })
+      .then((response) => response.json())
+      .then((newSaleData) => {
+        // Close the modal
+        handleCloseModal();
+        
+        // Clear the form fields
+        setNewSale({
+          orderId: '',
+          orderDate: '',
+          channel: '',
+          orderType: '',
+          paymentMethod: '',
+          amount: '',
+        });
+        
+        // Add the newly added data to the state
+        setData([...data, newSaleData]);
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error('Error:', error);
+      });
   };
+
+  // Fetch sales data when the component mounts
+  useEffect(() => {
+    fetch('get_sales.php')
+      .then((response) => response.json())
+      .then((salesData) => {
+        setData(salesData);
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error('Error:', error);
+      });
+  }, []); // Empty dependency array ensures this effect runs only once
+
 
   return (
     <div style={{ paddingTop: '25px', backgroundColor: 'antiquewhite', height: '100vh', paddingLeft: '300px', paddingRight: '300px' }}>

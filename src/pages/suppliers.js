@@ -104,14 +104,7 @@ const Suppliers = () => {
   const handleSaveSupplier = () => {
     setShowModal(false);
 
-    axios.post('add_supplier.php', newSupplier)
-      .then(response => {
-        console.log(response.data); // Display the response from the PHP script
-        // You can also update the state or perform any other actions here
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    setSuppliers(prevArray => [...prevArray, newSupplier])
 
     // Clear the newSupplier state
     setNewSupplier({
@@ -199,7 +192,7 @@ const Suppliers = () => {
             {/* Table Body */}
             <tbody>
               {filteredSuppliers.map((item, index) => (
-                <tr key={item.id}>
+                <tr key={index}>
                   <th scope="row">{index + 1}</th>
                   <td>{item.name}</td>
                   <td>{item.phoneNumber}</td>
@@ -230,7 +223,7 @@ const Suppliers = () => {
               <Modal.Title>Add Supplier</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <form>
+              <form method='POST' action='backend/add_supplier.php'>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">Name:</label>
                   <input
@@ -266,14 +259,18 @@ const Suppliers = () => {
                 </div>
                 <div className="mb-3">
                   <label htmlFor="signUpChannel" className="form-label">Sign Up Channel:</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="signUpChannel"
-                    name="signUpChannel"
-                    value={newSupplier.signUpChannel}
-                    onChange={handleSupplierInputChange}
-                  />
+                  <select
+                  name="signUpChannel"
+                  id="signUpChannel"
+                  className="form-control"
+                  onChange={handleSupplierInputChange}
+                  value={newSupplier.signUpChannel}
+                >
+                  <option value="">Select an option</option>
+                  <option value="Online">Online</option>
+                  <option value="In-Store">In-Store</option>
+                </select>
+                
                 </div>
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">Email:</label>
@@ -303,7 +300,7 @@ const Suppliers = () => {
               <Button variant="secondary" onClick={handleCloseModal}>
                 Cancel
               </Button>
-              <Button variant="primary" onClick={handleSaveSupplier}>
+              <Button type='submit' variant="primary" onClick={handleSaveSupplier}>
                 Save Supplier
               </Button>
             </Modal.Footer>

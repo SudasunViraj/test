@@ -170,6 +170,16 @@ const Employee = () => {
       usergroups: 'Group A',
     });
   };
+  useEffect(() => {
+    fetch('http://localhost/project1/get_employees.php')
+      .then((response) => response.json())
+      .then((data) => {
+        setEmployees(data); 
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []);
 
   useEffect(() => {
     document.body.classList.add('page-background');

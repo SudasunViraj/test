@@ -71,7 +71,7 @@ function LandingPage() {
               <div className="card-body">
                 <h5 className="card-title">Manage Customers</h5>
                 <p className="card-text">You can manage your Customer details here.</p>
-                <Link to="/sales" className="btn btn-primary">Go to Customer Management</Link>
+                <Link to="/customers" className="btn btn-primary">Go to Customer Management</Link>
               </div>
             </div>
           </div>
@@ -80,7 +80,7 @@ function LandingPage() {
               <div className="card-body">
                 <h5 className="card-title">Manage Raw Materials</h5>
                 <p className="card-text">You can manage your raw-materials details here.</p>
-                <Link to="/sales" className="btn btn-primary">Go to Raw Material Management</Link>
+                <Link to="/rawmaterials" className="btn btn-primary">Go to Raw Material Management</Link>
               </div>
             </div>
           </div>

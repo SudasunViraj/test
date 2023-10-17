@@ -1,4 +1,9 @@
 <?php
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+header('Content-Type: application/json');
+
 // Database connection parameters
 $servername = "your_database_server";
 $username = "your_database_username";
@@ -11,20 +16,27 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$name = $_POST['name'];
-$phoneNumber = $_POST['phoneNumber'];
-$address = $_POST['address'];
-$signUpChannel = $_POST['signUpChannel'];
-$email = $_POST['email'];
-$registeredDate = $_POST['registeredDate'];
+// Get JSON data from the request body
+$data = json_decode(file_get_contents("php://input"), true);
 
-$sql = "INSERT INTO suppliers (name, phoneNumber, address, signUpChannel, email, registeredDate)
-        VALUES ('$name', '$phoneNumber', '$address', '$signUpChannel', '$email', '$registeredDate')";
+if ($data) {
+    $name = $data['name'];
+    $phoneNumber = $data['phoneNumber'];
+    $address = $data['address'];
+    $signUpChannel = $data['signUpChannel'];
+    $email = $data['email'];
+    $registeredDate = $data['registeredDate'];
 
-if ($conn->query($sql) === TRUE) {
-    echo "Supplier added successfully";
+    $sql = "INSERT INTO suppliers (name, phoneNumber, address, signUpChannel, email, registeredDate)
+            VALUES ('$name', '$phoneNumber', '$address', '$signUpChannel', '$email', '$registeredDate')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo json_encode(array("message" => "Supplier added successfully"));
+    } else {
+        echo json_encode(array("error" => "Error: " . $sql . "<br>" . $conn->error));
+    }
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo json_encode(array("error" => "Invalid JSON data"));
 }
 
 $conn->close();

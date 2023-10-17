@@ -1,6 +1,12 @@
 // backend/get_suppliers.php
 
 <?php
+
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+header('Content-Type: application/json');
+
 // Database connection parameters
 $servername = "your_database_server";
 $username = "your_database_username";

@@ -15,18 +15,15 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get JSON data from the request body
 $data = json_decode(file_get_contents("php://input"), true);
 
 if ($data) {
-    // Extract data from the JSON object
     $username = $data['username'];
     $firstname = $data['firstname'];
     $lastname = $data['lastname'];
     $status = $data['status'];
     $usergroups = $data['usergroups'];
 
-    // Insert data into the database
     $sql = "INSERT INTO employee (username, firstname, lastname, status, usergroups)
             VALUES ('$username', '$firstname', '$lastname', '$status', '$usergroups')";
 

@@ -4,9 +4,21 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
+
+  const backgroundImageStyle = {
+    backgroundImage: `url(${image})`, // Set the background image
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  };
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <div style={{ backgroundColor: '#F1F8E9', flex: '1' }}>
+    <div style={backgroundImageStyle}>
+
+      <div style={{ backgroundColor: 'rgba(241, 248, 233, 0.8)', flex: '1' }}>
         <div className="container mt-3 text-center">
           <img className="image" src={image} alt="Blue Hills Tea" style={{ marginBottom: '40px' }} />
           <h1 style={{ marginBottom: '60px' }}>Blue Hills Managers' Portal</h1>
@@ -28,32 +40,32 @@ function LoginForm() {
   const history = useNavigate();
 
 
- // const handleSubmit = (e) => {
- //   e.preventDefault();
- //   console.log('Email:', email);
- //   console.log('Password:', password);
- // };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log('Email:', email);
+  //   console.log('Password:', password);
+  // };
 
- const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
     // Validate user credentials
     if (email === 'gayathriii99@gmail.com' && password === '12345') {
-      navigate('/home'); 
+      navigate('/home');
     } else {
       alert('Invalid credentials. Please try again.');
     }
-}
+  }
 
 
   const formStyle = {
     backgroundColor: 'rgb(139, 195, 74)',
-    padding: '30px', 
+    padding: '30px',
   };
 
   const buttonStyle = {
-    backgroundColor: '#007bff', 
-    color: '#fff', 
+    backgroundColor: '#007bff',
+    color: '#fff',
   };
 
   return (

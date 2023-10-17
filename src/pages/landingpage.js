@@ -1,10 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import image from '../images/Blue Hills Tea.png';
+import BlueHillsTeaBackground from '../images/BlueHillsTeaBackground.jpg';
+
 
 function LandingPage() {
+
+    const containerStyle = {
+      backgroundImage: `url(${BlueHillsTeaBackground})`,
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+    };
+
   return (
-    <div style={{ backgroundColor: '#F1F8E9', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={containerStyle}>
       <div className="container mt-3 text-center">
         <img className="image" src={image} alt="Blue Hills Tea" style={{ width: '100px', height: '100px', marginBottom: '40px' }} />
         <h1 style={{ marginBottom: '30px' }}>Welcome to Blue Hills Managers' Portal</h1>
@@ -19,9 +31,6 @@ function LandingPage() {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="row">
           <div className="col-md-6 mx-auto">
             <div className="card" style={{ backgroundColor: '#8BC34A', marginBottom: '20px' }}>
               <div className="card-body">
@@ -33,7 +42,8 @@ function LandingPage() {
           </div>
         </div>
 
-        <div className="row">
+       
+           <div className="row">
           <div className="col-md-6 mx-auto">
             <div className="card" style={{ backgroundColor: '#8BC34A', marginBottom: '20px' }}>
               <div className="card-body">
@@ -43,9 +53,6 @@ function LandingPage() {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="row">
           <div className="col-md-6 mx-auto">
             <div className="card" style={{ backgroundColor: '#8BC34A', marginBottom: '20px' }}>
               <div className="card-body">
@@ -56,6 +63,30 @@ function LandingPage() {
             </div>
           </div>
         </div>
+
+
+        <div className="row">
+          <div className="col-md-6 mx-auto">
+            <div className="card" style={{ backgroundColor: '#8BC34A', marginBottom: '20px' }}>
+              <div className="card-body">
+                <h5 className="card-title">Manage Customers</h5>
+                <p className="card-text">You can manage your Customer details here.</p>
+                <Link to="/sales" className="btn btn-primary">Go to Customer Management</Link>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6 mx-auto">
+            <div className="card" style={{ backgroundColor: '#8BC34A', marginBottom: '20px' }}>
+              <div className="card-body">
+                <h5 className="card-title">Manage Raw Materials</h5>
+                <p className="card-text">You can manage your raw-materials details here.</p>
+                <Link to="/sales" className="btn btn-primary">Go to Raw Material Management</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
       </div>
 
       {/* Footer */}

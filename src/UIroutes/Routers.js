@@ -6,6 +6,7 @@ import Employee from "../pages/employee";
 import Suppliers from "../pages/suppliers";
 import Products from "../pages/products";
 import Sales from "../pages/sales";
+import RawMaterial from "../pages/rawmaterials";
 
 function Routers() {
   return (
@@ -18,6 +19,7 @@ function Routers() {
         <Route path="/suppliers" element={<Suppliers />} />
         <Route path="/products" element={<Products />} />
         <Route path="/sales" element={<Sales />} />
+        <Route path="/rawmaterials" element={<RawMaterial />} />
       </Routes>
     </div>
   );

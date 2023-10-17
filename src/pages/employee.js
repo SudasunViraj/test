@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faLock, faKey } from '@fortawesome/free-solid-svg-icons';
 import '../App.css';
-
+import { log } from 'react-modal/lib/helpers/ariaAppHider';
 
 // function employees(){
 
@@ -34,6 +34,7 @@ const Employee = () => {
   ]);
 
   const [showModal, setShowModal] = useState(false);
+  const [editEmployee, setEditEmployee] = useState(null);
   const [newEmployee, setNewEmployee] = useState({
     username: '',
     firstname: '',
@@ -41,6 +42,41 @@ const Employee = () => {
     status: 'Active',
     usergroups: 'Group A',
   });
+
+  const openEditModal = (username) => {
+    const employeeToEdit = employees.find((employee) => employee.username === username);
+    setEditEmployee(employeeToEdit);
+    setShowModal(true);
+  };
+
+  // Function to handle the form submission for editing an employee
+  const handleEditEmployee = () => {
+    // Perform the edit operation (e.g., send a PUT request to update the employee on the server)
+    // After successful update, update the local state if needed
+    // Close the modal
+    // Clear the editEmployee state
+    // ...
+    // Example:
+    // fetch(`update_employee.php?username=${editEmployee.username}`, {
+    //   method: 'PUT',
+    //   body: JSON.stringify(editEmployee),
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     // Update local state and close the modal
+    //     // ...
+    //     // Clear the editEmployee state
+    //     setEditEmployee(null);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   });
+  };
+
 
   const handleDelete = (username) => {
   // Filter out the employee to be deleted from the local state
@@ -88,9 +124,6 @@ const Employee = () => {
 
 
 
-
-
-
     setEmployees(updatedEmployees); 
 
     console.log(`Locking employee with username: ${username}`);
@@ -110,14 +143,16 @@ const Employee = () => {
     usergroups: newEmployee.usergroups,
   };
 
-  fetch('add_employee.php', {
+  console.log(employeeData)
+
+  fetch('http://localhost/project1/add_employee.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(employeeData),
   })
-    .then((response) => response.json())
+    .then((response) => response)
     .then((data) => {
       console.log(data); 
     })
@@ -149,14 +184,14 @@ const Employee = () => {
 
       <h1>Manage Employee</h1>
 
-      {/* Add Employee Button */}
+      {/* {/ Add Employee Button /} */}
       <div className="text-end mb-3">
         <button className="btn btn-primary" onClick={() => setShowModal(true)}>
           Add Employee
         </button>
       </div>
-
-      {/* Employee Table */}
+{/* 
+      {/ Employee Table /} */}
       <table className="table table-bordered">
         <thead>
           <tr>
@@ -215,7 +250,59 @@ const Employee = () => {
         </tbody>
       </table>
 
-      {/* Add Employee Modal */}
+      {/* {/ Edit Employee Modal /} */}
+      <div
+        className={`modal fade ${showModal ? 'show' : ''}`}
+        tabIndex="-1"
+        role="dialog"
+        style={{ display: showModal ? 'block' : 'none' }}
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">
+                {editEmployee ? 'Edit Employee' : 'Add Employee'}
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={() => {
+                  setShowModal(false);
+                  setEditEmployee(null); // Clear the editEmployee state
+                }}
+              ></button>
+            </div>
+
+            <div className="modal-body">
+              <div className="mb-3">
+                {/* {/ ... form fields and inputs (similar to Add Employee) ... /} */}
+              </div>
+            </div>
+
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  setShowModal(false);
+                  setEditEmployee(null); // Clear the editEmployee state
+                }}
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={editEmployee ? handleEditEmployee : handleAddEmployee}
+              >
+                {editEmployee ? 'Save Changes' : 'Add Employee'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* {/ Add Employee Modal /} */}
       <div
         className={`modal fade ${showModal ? 'show' : ''}`}
         tabIndex="-1"
@@ -314,7 +401,6 @@ const Employee = () => {
                 </select>
               </div>
             </div>
-
 
             <div className="modal-footer">
               <button

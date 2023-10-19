@@ -1,6 +1,12 @@
 /* body {
-    font-family: 'Regular', sans-serif;
-  } */
+  background-image: url('../images/suppliersbackground.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+} */
 
   /* Suppliers.css */
   .table-container{
@@ -13,6 +19,7 @@
 .page-yellow {
     background-color: #F1F8E9;
     height: 100vh;
+    width: 100%;
   }
 .btn-container{
     margin-left: 1150px;

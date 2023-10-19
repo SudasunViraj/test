@@ -2,9 +2,21 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faBan, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
+import productbackground from '../images/productsbackground.jpg'
 
 const Product = () => {
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false); // State to control the edit modal
+
+    const backgroundImageStyle = {
+        backgroundImage: `url(${productbackground})`, // Set the background image
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+      };
+
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false); 
     const [editedProduct, setEditedProduct] = useState({
         name: '',
         price: '',
@@ -12,7 +24,7 @@ const Product = () => {
         category: '',
     });
 
-    const [isAddModalOpen, setIsAddModalOpen] = useState(false); // State to control the add modal
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false); 
     const [newProduct, setNewProduct] = useState({
         productId: '',
         productCategory: '',
@@ -135,21 +147,32 @@ const Product = () => {
 
     const handleAddFormSubmit = (e) => {
         e.preventDefault();
-        const newProductData = {
-            id: products.length + 1,
-            name: newProduct.productId,
-            category: newProduct.productCategory,
+
+        const formDataToSend = {
+            productName: newProduct.productName,
+            productCategory: newProduct.productCategory,
             categoryLevel: newProduct.categoryLevel,
-            visibility: newProduct.visibility,
+            visibility: newProduct.visibility
         };
 
-        // Add the new product to the products array
-        const updatedProducts = [...products, newProductData];
 
-        // Update the products state with the new data
-        setProducts(updatedProducts);
+        // Make an HTTP POST request to the PHP API endpoint.
+        fetch('', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formDataToSend),
 
-        // Close the modal
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
         closeAddModal();
     };
     const saveDetails = () => {
@@ -157,7 +180,8 @@ const Product = () => {
     }
 
     return (
-        <div className="full-page-background">
+
+        <div className="full-page-background" style={backgroundImageStyle}>
             <div className="container mt-4 text-center">
                 <h1 className="mb-5">Manage Products</h1>
 
@@ -322,7 +346,7 @@ const Product = () => {
                                     onChange={handleAddFormChange}
                                     style={{ width: '950px' }}
                                 >
-                                                                        <option value="Choose an option">Choose an option</option>
+                                    <option value="Choose an option">Choose an option</option>
                                     <option value="Enabled">Enabled</option>
                                     <option value="Disabled">Disabled</option>
                                 </select>

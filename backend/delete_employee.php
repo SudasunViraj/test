@@ -1,28 +1,37 @@
 <?php
-// Replace with your database credentials
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+header('Content-Type: application/json');
+
 $servername = "localhost";
-$username = "root";
-$password = "";
+$username = "your_username";
+$password = "your_password";
 $dbname = "your_database_name";
 
-// Create a connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check the connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get the username to be deleted from the URL parameter
-$usernameToDelete = $_GET['username'];
+if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    // Extract the username from the request parameters
+    $username = $_GET['username'];
 
-// Delete the employee record from the database
-$sql = "DELETE FROM employees WHERE username = '$usernameToDelete'";
+    // Use prepared statement to delete the employee with the specified username
+    $stmt = $conn->prepare("DELETE FROM employee WHERE username = ?");
+    $stmt->bind_param("s", $username);
 
-if ($conn->query($sql) === TRUE) {
-    echo "Employee deleted successfully";
+    if ($stmt->execute()) {
+        echo json_encode(array("message" => "Employee deleted successfully"));
+    } else {
+        echo json_encode(array("error" => "Error: " . $stmt->error));
+    }
+
+    $stmt->close();
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo json_encode(array("error" => "Invalid request method"));
 }
 
 $conn->close();

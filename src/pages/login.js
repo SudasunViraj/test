@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import image from '../images/Blue Hills Tea.png';
 import { useNavigate } from 'react-router-dom';
+import loginpagebackground from '../images/loginpagebackground.jpeg'
+import employeebackground from '../images/employeebackground.jpeg';
+
 
 
 function Login() {
 
   const backgroundImageStyle = {
-    backgroundImage: `url(${image})`, // Set the background image
+    backgroundImage: `url(${loginpagebackground})`, // Set the background image
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faLock, faKey } from '@fortawesome/free-solid-svg-icons';
 import '../App.css';
 import { log } from 'react-modal/lib/helpers/ariaAppHider';
+import employeebackground from '../images/employeebackground.png';
 
 // function employees(){
 
@@ -15,6 +16,21 @@ const pageStyle = {
 }
 
 const Employee = () => {
+
+
+  const backgroundStyle = {
+    backgroundImage: `url(${employeebackground})`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed',
+    backgroundPosition: 'center center',
+    paddingTop: '25px',
+    backgroundColor: 'antiquewhite',
+    height: '100vh',
+    paddingLeft: '300px',
+    paddingRight: '300px',
+  };
+
   const [employees, setEmployees] = useState([
     {
       username: 'user1',
@@ -79,22 +95,22 @@ const Employee = () => {
 
 
   const handleDelete = (username) => {
-  // Filter out the employee to be deleted from the local state
-  const updatedEmployees = employees.filter(
-    (employee) => employee.username !== username
-  );
+    // Filter out the employee to be deleted from the local state
+    const updatedEmployees = employees.filter(
+      (employee) => employee.username !== username
+    );
 
-  // Send a DELETE request to the PHP script to delete the employee from the database
-  fetch(`delete_employee.php?username=${username}`, {
-    method: 'DELETE',
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data); // Handle the response from the server
+    // Send a DELETE request to the PHP script to delete the employee from the database
+    fetch(`delete_employee.php?username=${username}`, {
+      method: 'DELETE',
     })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data); // Handle the response from the server
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
     setEmployees(updatedEmployees); // Update the local state
   };
 
@@ -112,7 +128,7 @@ const Employee = () => {
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log(data); 
+            console.log(data);
           })
           .catch((error) => {
             console.error('Error:', error);
@@ -124,7 +140,7 @@ const Employee = () => {
 
 
 
-    setEmployees(updatedEmployees); 
+    setEmployees(updatedEmployees);
 
     console.log(`Locking employee with username: ${username}`);
   };
@@ -135,37 +151,37 @@ const Employee = () => {
   };
   const handleAddEmployee = () => {
 
-  const employeeData = {
-    username: newEmployee.username,
-    firstname: newEmployee.firstname,
-    lastname: newEmployee.lastname, 
-    status: newEmployee.status,
-    usergroups: newEmployee.usergroups,
-  };
+    const employeeData = {
+      username: newEmployee.username,
+      firstname: newEmployee.firstname,
+      lastname: newEmployee.lastname,
+      status: newEmployee.status,
+      usergroups: newEmployee.usergroups,
+    };
 
-  console.log(employeeData)
+    console.log("cdata".employeeData)
 
-  fetch('http://localhost/project1/add_employee.php', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(employeeData),
-  })
-    .then((response) => response)
-    .then((data) => {
-      console.log(data); 
+    fetch('http://localhost/project1/add_employee.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(employeeData),
     })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+      .then((response) => response)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
 
     setEmployees([...employees, newEmployee]);
     setShowModal(false);
     setNewEmployee({
       username: '',
       firstname: '',
-      lastname:'',
+      lastname: '',
       status: 'Active',
       usergroups: 'Group A',
     });
@@ -174,7 +190,7 @@ const Employee = () => {
     fetch('http://localhost/project1/get_employees.php')
       .then((response) => response.json())
       .then((data) => {
-        setEmployees(data); 
+        setEmployees(data);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -190,9 +206,10 @@ const Employee = () => {
   }, []);
 
   return (
-    <div style={{ paddingTop: '25px', backgroundColor: 'antiquewhite', height: '100vh', paddingLeft: '300px', paddingRight: '300px' }}>
+    <div style={{ paddingTop: '25px', backgroundColor: 'antiquewhite', height: '100vh', paddingLeft: '300px', paddingRight: '300px', ...backgroundStyle }}>
 
       <h1>Manage Employee</h1>
+
 
       {/* {/ Add Employee Button /} */}
       <div className="text-end mb-3">
@@ -200,7 +217,7 @@ const Employee = () => {
           Add Employee
         </button>
       </div>
-{/* 
+      {/* 
       {/ Employee Table /} */}
       <table className="table table-bordered">
         <thead>
@@ -432,7 +449,7 @@ const Employee = () => {
         </div>
       </div>
     </div>
-    
+
   );
 };
 

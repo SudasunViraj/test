@@ -3,9 +3,21 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import '../pages/supplier.css';
 import axios from 'axios'; 
+import suppliersbackground from '../images/suppliersbackground.jpg';
+import '../css/sup.css'
 
 
 const Suppliers = () => {
+
+  const containerStyle = {
+    backgroundImage: `url(${suppliersbackground})`,
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+  };
+
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -142,8 +154,8 @@ const Suppliers = () => {
   }, [startDate, endDate, suppliers]);
 
   return (
-    <div className='page-yellow'>
-      <div className='table-container'>
+    <div className='page-yellow-new'>
+      <div className='table-container-sup'>
         <h1 className='supp'>Suppliers</h1>
         <div className='table-head-container'>
           <div className='date-container'>

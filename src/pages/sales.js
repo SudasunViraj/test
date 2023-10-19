@@ -8,46 +8,27 @@ const Sales = () => {
       id: 1,
       orderId: 'ORD123',
       orderDate: '2023-10-01',
-      channel: 'Online',
-      orderType: 'Standard',
+      customerName: 'John Doe',
       paymentMethod: 'Credit Card',
       amount: '5000',
     },
-    {
-      id: 2,
-      orderId: 'ORD124',
-      orderDate: '2023-10-02',
-      channel: 'In-Store',
-      orderType: 'Express',
-      paymentMethod: 'Cash',
-      amount: '3500',
-    },
-    {
-      id: 3,
-      orderId: 'ORD125',
-      orderDate: '2023-10-03',
-      channel: 'Phone',
-      orderType: 'Standard',
-      paymentMethod: 'PayPal',
-      amount: '6000',
-    },
+    // ... (other data objects)
   ]);
 
   const [newSale, setNewSale] = useState({
     orderId: '',
     orderDate: '',
-    channel: '',
-    orderType: '',
+    customerName: '',
     paymentMethod: '',
     amount: '',
   });
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
   const handleShowModal = () => {
     setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   const handleInputChange = (e) => {
@@ -59,7 +40,7 @@ const Sales = () => {
   };
 
   const handleAddSale = () => {
-    fetch('insert_sales.php', {
+    fetch('/insert_sales.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -67,42 +48,28 @@ const Sales = () => {
       body: JSON.stringify(newSale),
     })
       .then((response) => response.json())
-      .then((newSaleData) => {
-        // Close the modal
-        handleCloseModal();
-        
-        // Clear the form fields
-        setNewSale({
-          orderId: '',
-          orderDate: '',
-          channel: '',
-          orderType: '',
-          paymentMethod: '',
-          amount: '',
-        });
-        
-        // Add the newly added data to the state
-        setData([...data, newSaleData]);
+      .then((data) => {
+        if (data.success) {
+          setData([...data, newSale]); 
+          setNewSale({ 
+            salesId: '',
+            orderId: '',
+            orderDate: '',
+            customerName: '',
+            paymentMethod: '',
+            amount: '',
+          });
+          handleCloseModal(); 
+        } else {
+          console.error(data.message);
+        }
       })
       .catch((error) => {
-        // Handle errors
         console.error('Error:', error);
       });
   };
 
-  // Fetch sales data when the component mounts
-  useEffect(() => {
-    fetch('get_sales.php')
-      .then((response) => response.json())
-      .then((salesData) => {
-        setData(salesData);
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error('Error:', error);
-      });
-  }, []); // Empty dependency array ensures this effect runs only once
-
+  // ...
 
   return (
     <div style={{ paddingTop: '25px', backgroundColor: 'antiquewhite', height: '100vh', paddingLeft: '300px', paddingRight: '300px' }}>
@@ -116,28 +83,24 @@ const Sales = () => {
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">ORDER ID</th>
-            <th scope="col">ORDER DATE</th>
-            <th scope="col">CHANNEL</th>
-            <th scope="col">ORDER TYPE</th>
-            <th scope="col">PAYMENT METHOD</th>
-            <th scope="col">AMOUNT(LKR)</th>
-            <th scope="col">ACTIONS</th>
+            <th scope="col">Sales ID</th>
+            <th scope="col">Order ID</th>
+            <th scope="col">Order Date</th>
+            <th scope="col">Customer Name</th>
+            <th scope="col">Payment Method</th>
+            <th scope="col">Amount</th>
           </tr>
         </thead>
         <tbody>
           {data.map((item) => (
             <tr key={item.id}>
               <th scope="row">{item.id}</th>
+              <td>{item.salesId}</td>
               <td>{item.orderId}</td>
               <td>{item.orderDate}</td>
-              <td>{item.channel}</td>
-              <td>{item.orderType}</td>
+              <td>{item.customerName}</td>
               <td>{item.paymentMethod}</td>
               <td>{item.amount}</td>
-              <td>
-                {/* Add actions buttons or components here */}
-              </td>
             </tr>
           ))}
         </tbody>
@@ -150,6 +113,19 @@ const Sales = () => {
         </Modal.Header>
         <Modal.Body>
           <form>
+
+          <div className="form-group">
+              <label htmlFor="salesId">Sales ID</label>
+              <input
+                type="text"
+                className="form-control"
+                id="salesId"
+                name="salesId"
+                value={newSale.salesId}
+                onChange={handleInputChange}
+              />
+            </div>
+            
             <div className="form-group">
               <label htmlFor="orderId">Order ID</label>
               <input
@@ -173,24 +149,13 @@ const Sales = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="channel">Channel</label>
+              <label htmlFor="customerName">Customer Name</label>
               <input
                 type="text"
                 className="form-control"
-                id="channel"
-                name="channel"
-                value={newSale.channel}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="orderType">Order Type</label>
-              <input
-                type="text"
-                className="form-control"
-                id="orderType"
-                name="orderType"
-                value={newSale.orderType}
+                id="customerName"
+                name="customerName"
+                value={newSale.customerName}
                 onChange={handleInputChange}
               />
             </div>

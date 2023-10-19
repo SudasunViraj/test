@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import rawmaterialbackground from '../images/rawmaterialbackground.jpg'
 
 const RawMaterial = () => {
   const [showModal, setShowModal] = useState(false);
@@ -42,7 +43,23 @@ const RawMaterial = () => {
   };
 
   const handleAddRawMaterial = () => {
-    // Add your code to save the new raw material data, similar to your example
+    fetch('your-backend-url', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newRawMaterial),
+    })
+      .then((response) => response.json())
+      .then((newRawMaterialData) => {
+        
+        setData([...data, newRawMaterialData]);
+      })
+      .catch((error) => {
+        console.error('Error saving raw material:', error);
+      });
+
+    handleCloseModal(); // Close the modal after saving.
   };
 
   // Fetch raw material data when the component mounts
@@ -51,7 +68,18 @@ const RawMaterial = () => {
   }, []); // Empty dependency array ensures this effect runs only once
 
   return (
-    <div style={{ paddingTop: '25px', backgroundColor: 'antiquewhite', height: '100vh', paddingLeft: '300px', paddingRight: '300px' }}>
+    <div
+    style={{
+      paddingTop: '25px',
+      backgroundImage: `url(${rawmaterialbackground})`, 
+      backgroundSize: 'cover', 
+      backgroundRepeat: 'no-repeat', 
+      backgroundColor: 'antiquewhite',
+      height: '100vh',
+      paddingLeft: '300px',
+      paddingRight: '300px',
+    }}
+  >
       <h1>Raw Material Details</h1>
       <div style={{ marginBottom: '10px', textAlign: 'right' }}>
         <button className="btn btn-primary" onClick={handleShowModal}>

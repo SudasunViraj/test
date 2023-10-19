@@ -1,39 +1,53 @@
 <?php
+// Include your database connection code here (e.g., connection to the Bluehills database).
+
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+header('Content-Type: application/json');
+
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "your_database_name";
+$dbname = "ravindu";
 
-// Create a connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get data from the request
-    $productName = $_POST['productId'];
-    $productCategory = $_POST['productCategory'];
-    $categoryLevel = $_POST['categoryLevel'];
-    $visibility = $_POST['visibility'];
+    // Ensure that the request is a POST request.
 
-    // Perform data validation as needed
+    // Get JSON data from the request.
+    $data = json_decode(file_get_contents("php://input"), true);
 
-    // Insert the data into the database
-    $sql = "INSERT INTO products (product_name, product_category, category_level, visibility) 
-            VALUES ('$productName', '$productCategory', '$categoryLevel', '$visibility')";
+    if ($data) {
+        // Extract data from the JSON object.
+        $productName = $data['productName'];
+        $productCategory = $data['productCategory'];
+        $categoryLevel = $data['categoryLevel'];
+        $visibility = $data['visibility'];
 
-    if ($conn->query($sql) === TRUE) {
-        // Successfully inserted the product
-        echo json_encode(['message' => 'Product added successfully']);
+        // Perform server-side validation here if needed.
+
+        // Insert data into the 'product' table.
+        $sql = "INSERT INTO product (productName, productCategory, categoryLevel, visibility) 
+                VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssss", $productName, $productCategory, $categoryLevel, $visibility);
+
+        if ($stmt->execute()) {
+            // The product was successfully added to the database.
+            echo json_encode(array("message" => "Product added successfully"));
+        } else {
+            // Error handling if the product insertion fails.
+            echo json_encode(array("message" => "Product addition failed"));
+        }
+
+        $stmt->close();
     } else {
-        // Error occurred while inserting the product
-        echo json_encode(['error' => 'Error adding product']);
+        // Invalid JSON data.
+        echo json_encode(array("message" => "Invalid JSON data"));
     }
-
-    // Close the database connection
-    $conn->close();
+} else {
+    // Handle other HTTP methods (if needed).
+    echo json_encode(array("message" => "Invalid request method"));
 }
 ?>

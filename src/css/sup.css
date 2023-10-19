@@ -1,0 +1,36 @@
+
+  /* Suppliers.css */
+  .table-container-sup{
+    width: 80%;
+    margin: auto;
+  }
+  .supp{
+    padding-top: 30px;
+  }
+.page-yellow-new {
+    background-color: #F1F8E9;
+    height: 100vh;
+    width: 100%;
+    background-image: url("../images/suppliersbackground.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+   
+  }
+.btn-container{
+    margin-left: 1150px;
+    margin-top: 200px;
+}
+.table-head-container{
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-between;
+}
+.date-container{
+    display: flex;
+}
+.datee{
+    margin-right: 40px;
+}
+  

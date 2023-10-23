@@ -1,10 +1,10 @@
 <?php
 
 // Replace these with your actual database connection details
-$host = 'your_database_host';
-$username = 'your_database_username';
-$password = 'your_database_password';
-$database = 'bluegills';
+$host = '127.0.0.1';
+$username = 'root';
+$password = '';
+$database = 'project';
 
 // Create a new database connection
 $mysqli = new mysqli($host, $username, $password, $database);
@@ -18,6 +18,12 @@ if ($mysqli->connect_error) {
 $data = json_decode(file_get_contents('php://input'), true);
 
 if ($data) {
+    $rawMaterialId = $data['rawMaterialId'];
+    $supplierName = $data['supplierName'];
+    $type = $data['type'];
+    $weight = $data['weight'];
+    $email = $data['email'];
+    $productCategory = $data['productCategory'];
     // Perform SQL insert
     $query = "INSERT INTO rawmaterials (rawMaterialId, supplierName, type, weight, productCategory) VALUES (?, ?, ?, ?, ?)";
 

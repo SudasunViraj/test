@@ -20,18 +20,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($data) {
         // Extract data from the JSON object.
+        $productID = $data['productID'];
         $productName = $data['productName'];
         $productCategory = $data['productCategory'];
-        $categoryLevel = $data['categoryLevel'];
+        $quantity = $data['quantity'];
+        $productPrice = $data['productPrice'];
         $visibility = $data['visibility'];
 
         // Perform server-side validation here if needed.
 
         // Insert data into the 'product' table.
-        $sql = "INSERT INTO product (productName, productCategory, categoryLevel, visibility) 
+        $sql = "INSERT INTO product (productID, productName, productCategory, quantity, productPrice, visibility) 
                 VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $productName, $productCategory, $categoryLevel, $visibility);
+        $stmt->bind_param("ssss", $productID, $productName, $productCategory, $quantity, $productPrice, $visibility);
 
         if ($stmt->execute()) {
             // The product was successfully added to the database.

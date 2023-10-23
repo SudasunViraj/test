@@ -394,3 +394,59 @@ header('Content-Type: application/json');
 echo json_encode($employeeData);
 ?>
 
+<table className="table table-bordered">
+        <thead>
+          <tr>
+            <th className="border">Username</th>
+            <th className="border">Firstname</th>
+            <th className="border">Lastname</th>
+            <th className="border">Status</th>
+            <th className="border">Usergroups</th>
+          </tr>
+        </thead>
+        <tbody>
+          {employees.map((employee) => (
+            <tr key={employee.username}>
+              <td className="border">{employee.username}</td>
+              <td className="border">{employee.firstname}</td>
+              <td className="border">{employee.lastname}</td>
+              <td className="border">
+                <button className="btn btn-success">{employee.status}</button>
+              </td>
+              <td className="border">
+                <button className="btn btn-info">{employee.usergroups}</button>
+              </td>
+              <td className="border">
+                <button
+                  className="btn custom-btn mx-2"
+                  style={{ backgroundColor: '#135e38' }}
+                  onClick={() => handleDelete(employee.username)}
+                >
+                  <FontAwesomeIcon icon={faTrash} className="icon-color" />
+                </button>
+                <button
+                  className="btn custom-btn mx-2"
+                  style={{ backgroundColor: '#135e38' }}
+                  onClick={() => handleEdit(employee.username)}
+                >
+                  <FontAwesomeIcon icon={faEdit} className="icon-color" />
+                </button>
+                <button
+                  className="btn custom-btn mx-2"
+                  style={{ backgroundColor: '#135e38' }}
+                  onClick={() => handleLock(employee.username)}
+                >
+                  <FontAwesomeIcon icon={faLock} className="icon-color" />
+                </button>
+                <button
+                  className="btn custom-btn mx-2"
+                  style={{ backgroundColor: '#135e38' }}
+                  onClick={() => handleKey(employee.username)}
+                >
+                  <FontAwesomeIcon icon={faKey} className="icon-color" />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap'
+import backgroundImage from '../images/salesbackground.jpg'; // Replace with the path to your image
 
 const Sales = () => {
   const [showModal, setShowModal] = useState(false);
@@ -39,6 +40,8 @@ const Sales = () => {
     });
   };
 
+
+
   const handleAddSale = () => {
     fetch('/insert_sales.php', {
       method: 'POST',
@@ -48,20 +51,20 @@ const Sales = () => {
       body: JSON.stringify(newSale),
     })
       .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          setData([...data, newSale]); 
-          setNewSale({ 
-            salesId: '',
+      .then((response) => {
+        if (response.success) {
+          // Append the newly added sale to the data array
+          setData([...data, response.sale]);
+          setNewSale({
             orderId: '',
             orderDate: '',
             customerName: '',
             paymentMethod: '',
             amount: '',
           });
-          handleCloseModal(); 
+          handleCloseModal();
         } else {
-          console.error(data.message);
+          console.error(response.message);
         }
       })
       .catch((error) => {
@@ -69,10 +72,35 @@ const Sales = () => {
       });
   };
 
+  useEffect(() => {
+    // Fetch sales data from the database and update the state
+    fetch('/get_sales.php')
+      .then((response) => response.json())
+      .then((salesData) => {
+        setData(salesData);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []); // The empty dependency array ensures this effect runs only once on component mount
+
+
   // ...
 
   return (
-    <div style={{ paddingTop: '25px', backgroundColor: 'antiquewhite', height: '100vh', paddingLeft: '300px', paddingRight: '300px' }}>
+    <div style={{
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundAttachment: 'fixed',
+      backgroundPosition: 'center',
+      paddingTop: '25px',
+      backgroundColor: 'antiquewhite',
+      height: '100vh',
+      paddingLeft: '300px',
+      paddingRight: '300px'
+    }}>
+
       <h1>Sales</h1>
       <div style={{ marginBottom: '10px', textAlign: 'right' }}>
         <button className="btn btn-primary" onClick={handleShowModal}>
@@ -114,7 +142,7 @@ const Sales = () => {
         <Modal.Body>
           <form>
 
-          <div className="form-group">
+            <div className="form-group">
               <label htmlFor="salesId">Sales ID</label>
               <input
                 type="text"
@@ -125,7 +153,7 @@ const Sales = () => {
                 onChange={handleInputChange}
               />
             </div>
-            
+
             <div className="form-group">
               <label htmlFor="orderId">Order ID</label>
               <input
@@ -161,15 +189,19 @@ const Sales = () => {
             </div>
             <div className="form-group">
               <label htmlFor="paymentMethod">Payment Method</label>
-              <input
-                type="text"
+              <select
                 className="form-control"
                 id="paymentMethod"
                 name="paymentMethod"
                 value={newSale.paymentMethod}
                 onChange={handleInputChange}
-              />
+              >
+                <option value="">Select Payment Method</option>
+                <option value="Card">Card</option>
+                <option value="Cash">Cash</option>
+              </select>
             </div>
+
             <div className="form-group">
               <label htmlFor="amount">Amount (LKR)</label>
               <input

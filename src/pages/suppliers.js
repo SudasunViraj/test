@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import '../pages/supplier.css';
-import axios from 'axios'; 
+import axios from 'axios';
 import suppliersbackground from '../images/suppliersbackground.jpg';
 import '../css/sup.css'
 
@@ -116,7 +116,16 @@ const Suppliers = () => {
   const handleSaveSupplier = () => {
     setShowModal(false);
 
-    setSuppliers(prevArray => [...prevArray, newSupplier])
+    // Send a POST request to your backend to add the new supplier
+    axios.post('/api/add_supplier', newSupplier)
+      .then(response => {
+        // Handle the response if needed
+        console.log('Supplier added successfully:', response.data);
+      })
+      .catch(error => {
+        // Handle errors
+        console.error('Error adding supplier:', error);
+      });
 
     // Clear the newSupplier state
     setNewSupplier({
@@ -136,6 +145,24 @@ const Suppliers = () => {
       ...prevSupplier,
       [name]: value,
     }));
+  };
+
+  useEffect(() => {
+    // Fetch supplier data from the server when the component mounts
+    fetchSuppliers();
+  }, []); // The empty dependency array ensures this effect runs once on component mount
+
+  const fetchSuppliers = () => {
+    // Make an HTTP GET request to fetch supplier data
+    axios.get('backend/get_supplier.php')
+      .then((response) => {
+        // Update the suppliers state with the received data
+        setSuppliers(response.data);
+      })
+      .catch((error) => {
+        // Handle any errors, e.g., show an error message
+        console.error(error);
+      });
   };
 
   // Filter suppliers based on the selected date range using useMemo
@@ -203,29 +230,29 @@ const Suppliers = () => {
             </thead>
             {/* Table Body */}
             <tbody>
-              {filteredSuppliers.map((item, index) => (
+              {suppliers.map((supplier, index) => (
                 <tr key={index}>
                   <th scope="row">{index + 1}</th>
-                  <td>{item.name}</td>
-                  <td>{item.phoneNumber}</td>
-                  <td>{item.address}</td>
+                  <td>{supplier.name}</td>
+                  <td>{supplier.phoneNumber}</td>
+                  <td>{supplier.address}</td>
                   <td>
-                    {item.signUpChannel === 'Online' && (
+                    {supplier.signUpChannel === 'Online' && (
                       <span style={{ backgroundColor: 'brown', borderRadius: '50px', padding: '5px', color: 'white' }}>
-                        {item.signUpChannel}
+                        {supplier.signUpChannel}
                       </span>
                     )}
-                    {item.signUpChannel === 'In-Store' && (
+                    {supplier.signUpChannel === 'In-Store' && (
                       <span style={{ backgroundColor: 'brown', borderRadius: '50px', padding: '5px', color: 'white' }}>
-                        {item.signUpChannel}
+                        {supplier.signUpChannel}
                       </span>
                     )}
-                    {item.signUpChannel !== 'Online' && item.signUpChannel !== 'In-Store' && (
-                      <span>{item.signUpChannel}</span>
+                    {supplier.signUpChannel !== 'Online' && supplier.signUpChannel !== 'In-Store' && (
+                      <span>{supplier.signUpChannel}</span>
                     )}
                   </td>
-                  <td>{item.email}</td>
-                  <td>{item.registeredDate}</td>
+                  <td>{supplier.email}</td>
+                  <td>{supplier.registeredDate}</td>
                 </tr>
               ))}
             </tbody>
@@ -272,17 +299,17 @@ const Suppliers = () => {
                 <div className="mb-3">
                   <label htmlFor="signUpChannel" className="form-label">Sign Up Channel:</label>
                   <select
-                  name="signUpChannel"
-                  id="signUpChannel"
-                  className="form-control"
-                  onChange={handleSupplierInputChange}
-                  value={newSupplier.signUpChannel}
-                >
-                  <option value="">Select an option</option>
-                  <option value="Online">Online</option>
-                  <option value="In-Store">In-Store</option>
-                </select>
-                
+                    name="signUpChannel"
+                    id="signUpChannel"
+                    className="form-control"
+                    onChange={handleSupplierInputChange}
+                    value={newSupplier.signUpChannel}
+                  >
+                    <option value="">Select an option</option>
+                    <option value="Online">Online</option>
+                    <option value="In-Store">In-Store</option>
+                  </select>
+
                 </div>
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">Email:</label>

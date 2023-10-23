@@ -50,7 +50,6 @@ const Employee = () => {
   ]);
 
   const [showModal, setShowModal] = useState(false);
-  const [editEmployee, setEditEmployee] = useState(null);
   const [newEmployee, setNewEmployee] = useState({
     username: '',
     firstname: '',
@@ -61,8 +60,7 @@ const Employee = () => {
 
   const openEditModal = (username) => {
     const employeeToEdit = employees.find((employee) => employee.username === username);
-    setEditEmployee(employeeToEdit);
-    setShowModal(true);
+      setShowModal(true);
   };
 
   // Function to handle the form submission for editing an employee
@@ -151,6 +149,8 @@ const Employee = () => {
   };
   const handleAddEmployee = () => {
 
+    console.log("Hi this is method")
+
     const employeeData = {
       username: newEmployee.username,
       firstname: newEmployee.firstname,
@@ -159,9 +159,9 @@ const Employee = () => {
       usergroups: newEmployee.usergroups,
     };
 
-    console.log("cdata".employeeData)
+    console.log("cdata",employeeData)
 
-    fetch('http://localhost/project1/add_employee.php', {
+    fetch('http://localhost/project/add_employee.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -187,7 +187,7 @@ const Employee = () => {
     });
   };
   useEffect(() => {
-    fetch('http://localhost/project1/get_employees.php')
+    fetch('http://localhost/project/get_employees.php')
       .then((response) => response.json())
       .then((data) => {
         setEmployees(data);
@@ -220,62 +220,32 @@ const Employee = () => {
       {/* 
       {/ Employee Table /} */}
       <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th className="border">Username</th>
-            <th className="border">Firstname</th>
-            <th className="border">Lastname</th>
-            <th className="border">Status</th>
-            <th className="border">Usergroups</th>
-            <th className="border">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((employee) => (
-            <tr key={employee.username}>
-              <td className="border">{employee.username}</td>
-              <td className="border">{employee.firstname}</td>
-              <td className="border">{employee.lastname}</td>
-              <td className="border">
-                <button className="btn btn-success">{employee.status}</button>
-              </td>
-              <td className="border">
-                <button className="btn btn-info">{employee.usergroups}</button>
-              </td>
-              <td className="border">
-                <button
-                  className="btn custom-btn mx-2"
-                  style={{ backgroundColor: '#135e38' }}
-                  onClick={() => handleDelete(employee.username)}
-                >
-                  <FontAwesomeIcon icon={faTrash} className="icon-color" />
-                </button>
-                <button
-                  className="btn custom-btn mx-2"
-                  style={{ backgroundColor: '#135e38' }}
-                  onClick={() => handleEdit(employee.username)}
-                >
-                  <FontAwesomeIcon icon={faEdit} className="icon-color" />
-                </button>
-                <button
-                  className="btn custom-btn mx-2"
-                  style={{ backgroundColor: '#135e38' }}
-                  onClick={() => handleLock(employee.username)}
-                >
-                  <FontAwesomeIcon icon={faLock} className="icon-color" />
-                </button>
-                <button
-                  className="btn custom-btn mx-2"
-                  style={{ backgroundColor: '#135e38' }}
-                  onClick={() => handleKey(employee.username)}
-                >
-                  <FontAwesomeIcon icon={faKey} className="icon-color" />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+  <thead>
+    <tr>
+      <th className="border">Username</th>
+      <th className="border">Firstname</th>
+      <th className="border">Lastname</th>
+      <th className="border">Status</th>
+      <th className="border">Usergroups</th>
+    </tr>
+  </thead>
+  <tbody>
+    {employees.map((employee) => (
+      <tr key={employee.username}>
+        <td className="border">{employee.username}</td>
+        <td className="border">{employee.firstname}</td>
+        <td className="border">{employee.lastname}</td>
+        <td className="border">
+          <button className="btn btn-success">{employee.status}</button>
+        </td>
+        <td className="border">
+          <button className="btn btn-info">{employee.usergroups}</button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
 
       {/* {/ Edit Employee Modal /} */}
       <div
@@ -288,14 +258,13 @@ const Employee = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
-                {editEmployee ? 'Edit Employee' : 'Add Employee'}
+                {'Add Employee'}
               </h5>
               <button
                 type="button"
                 className="btn-close"
                 onClick={() => {
                   setShowModal(false);
-                  setEditEmployee(null); // Clear the editEmployee state
                 }}
               ></button>
             </div>
@@ -312,7 +281,6 @@ const Employee = () => {
                 className="btn btn-secondary"
                 onClick={() => {
                   setShowModal(false);
-                  setEditEmployee(null); // Clear the editEmployee state
                 }}
               >
                 Close
@@ -320,9 +288,9 @@ const Employee = () => {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={editEmployee ? handleEditEmployee : handleAddEmployee}
+                onClick={ handleAddEmployee}
               >
-                {editEmployee ? 'Save Changes' : 'Add Employee'}
+                 Add Employee
               </button>
             </div>
           </div>
@@ -423,8 +391,10 @@ const Employee = () => {
                   }
                   style={{ textAlign: 'left' }}
                 >
-                  <option value="Group A">Group A</option>
-                  <option value="Group B">Group B</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Supervisor">Supervisor</option>
+                  <option value="Operator">Operator</option>
+
                 </select>
               </div>
             </div>

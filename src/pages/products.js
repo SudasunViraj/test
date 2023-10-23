@@ -14,9 +14,9 @@ const Product = () => {
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
-      };
+    };
 
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false); 
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editedProduct, setEditedProduct] = useState({
         name: '',
         price: '',
@@ -24,13 +24,16 @@ const Product = () => {
         category: '',
     });
 
-    const [isAddModalOpen, setIsAddModalOpen] = useState(false); 
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [newProduct, setNewProduct] = useState({
         productId: '',
-        productCategory: '',
-        categoryLevel: '',
+        productName: '', // Add this
+        productCategory: '', // Add this
+        quantity: '', // Add this
+        productPrice: '', // Add this
         visibility: 'Enabled', // Default value
     });
+
     const handleVisibilityChange = (product) => {
         const productIndex = products.findIndex((p) => p.id === product.id);
 
@@ -145,16 +148,18 @@ const Product = () => {
         }));
     };
 
+
     const handleAddFormSubmit = (e) => {
         e.preventDefault();
 
         const formDataToSend = {
+            productId: newProduct.productId,
             productName: newProduct.productName,
             productCategory: newProduct.productCategory,
-            categoryLevel: newProduct.categoryLevel,
-            visibility: newProduct.visibility
+            quantity: newProduct.quantity,
+            productPrice: newProduct.productPrice,
+            visibility: newProduct.visibility,
         };
-
 
         // Make an HTTP POST request to the PHP API endpoint.
         fetch('', {
@@ -163,18 +168,18 @@ const Product = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formDataToSend),
-
         })
-            .then(response => response.json())
-            .then(data => {
+            .then((response) => response.json())
+            .then((data) => {
                 console.log(data);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('Error:', error);
             });
 
         closeAddModal();
     };
+
     const saveDetails = () => {
 
     }
@@ -232,20 +237,25 @@ const Product = () => {
                     <table className="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">PRODUCT NAME</th>
-                                <th scope="col">CATEGORY</th>
-                                <th scope="col">CATEGORY LEVEL</th>
-                                <th scope="col">VISIBILITY</th>
-                                <th scope="col">ACTIONS</th>
+                                <th scope="col">Product ID</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Product Category</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Product Price</th>
+                                <th scope="col">Visibility</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             {products.map((product, index) => (
                                 <tr key={product.id}>
-                                    <th scope="row">{product.name}</th>
-                                    <td>{product.category}</td>
-                                    <td>{product.categoryLevel}</td>
-                                    <td>{product.visibility}</td>
+                                    <th scope="row">{product.id}</th> {/* Product ID */}
+                                    <td>{product.name}</td> {/* Product Name */}
+                                    <td>{product.category}</td> {/* Product Category */}
+                                    <td>{product.quantity}</td> {/* Quantity */}
+                                    <td>{product.price}</td> {/* Product Price */}
+                                    <td>{product.visibility}</td> {/* Visibility */}
                                     <td>
                                         <button
                                             className="btn custom-button"
@@ -293,7 +303,7 @@ const Product = () => {
                         <form onSubmit={handleAddFormSubmit} className="mx-auto">
                             {/* Add Product Form */}
                             <div className="form-group">
-                                <label htmlFor="productId">Product Name:</label>
+                                <label htmlFor="productId">Product ID:</label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -305,7 +315,24 @@ const Product = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="productCategory">Product Category:</label>
+                                <label htmlFor="productCategory">Product Name:</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="productName"
+                                    name="productName"
+                                    value={newProduct.productName}
+                                    onChange={handleAddFormChange}
+                                    style={{ width: '950px' }}
+                                />
+                                {/* <option value="Choose an Option">Choose an Option</option>
+                                    <option value="Black Tea">Black Tea</option>
+                                    <option value="Green Tea">Green Tea</option>
+                                    <option value="Herbal Tea">Herbal Tea</option> */}
+
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="categoryLevel">Product Category:</label>
                                 <select
                                     className="form-control"
                                     id="productCategory"
@@ -314,28 +341,44 @@ const Product = () => {
                                     onChange={handleAddFormChange}
                                     style={{ width: '950px' }}
                                 >
-                                    <option value="Choose an Option">Choose an Option</option>
                                     <option value="Black Tea">Black Tea</option>
                                     <option value="Green Tea">Green Tea</option>
                                     <option value="Herbal Tea">Herbal Tea</option>
-
                                 </select>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="categoryLevel">Category Level:</label>
-                                <select
+                                <label htmlFor="quantity">Quantity:</label>
+                                <input
+                                    type="text"
                                     className="form-control"
-                                    id="categoryLevel"
-                                    name="categoryLevel"
-                                    value={newProduct.categoryLevel}
+                                    id="quantity"
+                                    name="quantity"
+                                    value={newProduct.quantity}
                                     onChange={handleAddFormChange}
                                     style={{ width: '950px' }}
-                                >
-                                    <option value="Choose an Option">Choose an Option</option>
-                                    <option value="Main Category">Main Category</option>
-                                    <option value="Sub Category">Sub Category</option>
-                                </select>
+                                />
+                                {/* <option value="Choose an option">Choose an option</option>
+                                    <option value="Enabled">Enabled</option>
+                                    <option value="Disabled">Disabled</option> */}
+
                             </div>
+
+                            <div className="form-group">
+                                <label htmlFor="visibility">Product Price:</label>
+                                <input type="text"
+                                    className="form-control"
+                                    id="productPrice"
+                                    name="productPrice"
+                                    value={newProduct.productPrice}
+                                    onChange={handleAddFormChange}
+                                    style={{ width: '950px' }}
+                                />
+                                {/* <option value="Choose an option">Choose an option</option>
+                                    <option value="Enabled">Enabled</option>
+                                    <option value="Disabled">Disabled</option> */}
+
+                            </div>
+
                             <div className="form-group">
                                 <label htmlFor="visibility">Visibility:</label>
                                 <select
@@ -346,9 +389,12 @@ const Product = () => {
                                     onChange={handleAddFormChange}
                                     style={{ width: '950px' }}
                                 >
-                                    <option value="Choose an option">Choose an option</option>
                                     <option value="Enabled">Enabled</option>
                                     <option value="Disabled">Disabled</option>
+
+                                    {/* <option value="Choose an option">Choose an option</option>
+                                    <option value="Enabled">Enabled</option>
+                                    <option value="Disabled">Disabled</option> */}
                                 </select>
                             </div>
                             <button type="submit" className="btn btn-primary" onClick={saveDetails}>

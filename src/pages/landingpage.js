@@ -86,6 +86,28 @@ function LandingPage() {
           </div>
         </div>
 
+        <div className="row">
+          <div className="col-md-6 mx-auto">
+            <div className="card" style={{ backgroundColor: '#8BC34A', marginBottom: '20px' }}>
+              <div className="card-body">
+                <h5 className="card-title">Manage Orders</h5>
+                <p className="card-text">You can manage your Orders here.</p>
+                <Link to="/orders" className="btn btn-primary">Go to Orders Management</Link>
+              </div>
+            </div>
+          </div>
+          {/* <div className="col-md-6 mx-auto">
+            <div className="card" style={{ backgroundColor: '#8BC34A', marginBottom: '20px' }}>
+              <div className="card-body">
+                <h5 className="card-title">Reports Management</h5>
+                <p className="card-text">You can manage your reports here.</p>
+                <Link to="/rawmaterials" className="btn btn-primary">Go to Reports Management</Link>
+              </div>
+            </div>
+          </div> */}
+        </div>
+
+
 
       </div>
 

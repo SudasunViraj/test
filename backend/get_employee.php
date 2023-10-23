@@ -4,10 +4,10 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header('Content-Type: application/json');
 
-$servername = "localhost";
+$servername = "127.0.0.1";
 $username = "root";
 $password = "";
-$dbname = "ravindu";
+$dbname = "project";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

@@ -9,6 +9,10 @@ import Sales from "../pages/sales";
 import RawMaterial from "../pages/rawmaterials";
 import Customers from "../pages/customers";
 import Orders from "../pages/orders"
+import DailyOrdersSummaryReport from "../pages/dailysalesreport";
+import ManagerDetailsReport from "../pages/employeedetailesreort";
+import OrderDetailsReport from "../pages/orderdetailsreport";
+import Report from "../pages/reports";
 
 function Routers() {
   return (
@@ -24,6 +28,10 @@ function Routers() {
         <Route path="/rawmaterials" element={<RawMaterial />} />
         <Route path="/customers" element={<Customers />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/dailysalesreport" element={<DailyOrdersSummaryReport />} />
+        <Route path="/employeedetailsreport" element={<ManagerDetailsReport />} />
+        <Route path="/orderdetailsreport" element={<OrderDetailsReport />} />
+        <Route path="/reports" element={<Report />} />
       </Routes>
     </div>
   );

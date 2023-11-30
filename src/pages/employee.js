@@ -50,6 +50,24 @@ const Employee = () => {
   ]);
 
   const [showModal, setShowModal] = useState(false);
+
+  const [showReport, setShowReport] = useState(false);
+  const [reportData, setReportData] = useState([]);
+   
+  const handleGenerateReport = () => {
+    
+    const reportData = employees.map(employee => ({
+      username: employee.username,
+      firstname: employee.firstname,
+      lastname: employee.lastname,
+      status: employee.status,
+      usergroups: employee.usergroups,
+    }));
+
+    setReportData(reportData);
+    setShowReport(true);
+  };
+
   const [newEmployee, setNewEmployee] = useState({
     username: '',
     firstname: '',
@@ -57,6 +75,12 @@ const Employee = () => {
     status: 'Active',
     usergroups: 'Group A',
   });
+
+  const [showReportModal, setShowReportModal] = useState(false);
+  const handleCloseReportModal = () => {
+    setShowReportModal(false);
+  };
+
 
   const openEditModal = (username) => {
     const employeeToEdit = employees.find((employee) => employee.username === username);
@@ -216,10 +240,16 @@ const Employee = () => {
         <button className="btn btn-primary" onClick={() => setShowModal(true)}>
           Add Employee
         </button>
+        <button className="btn btn-secondary ms-2" onClick={handleGenerateReport}>
+          Generate Employee Report
+        </button>
       </div>
-      {/* 
-      {/ Employee Table /} */}
-      <table className="table table-bordered">
+
+
+
+ 
+{/* Employee Table */}
+<table className="table table-bordered">
   <thead>
     <tr>
       <th className="border">Username</th>
@@ -227,6 +257,7 @@ const Employee = () => {
       <th className="border">Lastname</th>
       <th className="border">Status</th>
       <th className="border">Usergroups</th>
+      <th className="border">Actions</th> {/* Add Actions column header */}
     </tr>
   </thead>
   <tbody>
@@ -240,6 +271,14 @@ const Employee = () => {
         </td>
         <td className="border">
           <button className="btn btn-info">{employee.usergroups}</button>
+        </td>
+        <td className="border">
+          <button
+            className="btn btn-primary"
+            onClick={() => openEditModal(employee.username)}
+          >
+            <FontAwesomeIcon icon={faEdit} /> {/* Edit icon */}
+          </button>
         </td>
       </tr>
     ))}
@@ -296,6 +335,7 @@ const Employee = () => {
           </div>
         </div>
       </div>
+      
 
       {/* {/ Add Employee Modal /} */}
       <div
@@ -313,6 +353,7 @@ const Employee = () => {
                 className="btn-close"
                 onClick={() => setShowModal(false)}
               ></button>
+              
             </div>
 
             <div className="modal-body">
@@ -398,6 +439,8 @@ const Employee = () => {
                 </select>
               </div>
             </div>
+
+            
 
             <div className="modal-footer">
               <button

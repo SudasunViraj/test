@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faBan, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
@@ -26,7 +26,7 @@ const Product = () => {
 
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [newProduct, setNewProduct] = useState({
-        productId: '',
+        productID: '',
         productName: '', // Add this
         productCategory: '', // Add this
         quantity: '', // Add this
@@ -35,79 +35,123 @@ const Product = () => {
     });
 
     const handleVisibilityChange = (product) => {
-        const productIndex = products.findIndex((p) => p.id === product.id);
-
-        const updatedProduct = { ...product, visibility: 'Disabled' };
-
-        const updatedProducts = [...products];
-        updatedProducts[productIndex] = updatedProduct;
-
-        setProducts(updatedProducts);
+        const productIndex = products.findIndex((p) => p.productID === product.productID);
+    
+        if (productIndex !== -1) {
+            const updatedProducts = [...products];
+            updatedProducts[productIndex] = {
+                ...product,
+                visibility: 'Disabled'
+            };
+    
+            setProducts(updatedProducts);
+        }
     };
+    
 
 
+ 
+        
     const [products, setProducts] = useState([
         {
-            "id": "Dragonwell",
-            "category": "Green Tea",
-            "categoryLevel": "Main Category",
-            "visibility": "Disabled"
+            "productID": "1",
+            "productName": "Chai Tea",
+            "productCategory": "Tea",
+            "quantity": "In Stock",
+            "productPrice": "1200",
+            "visibility": "Enabled"
         },
         {
-            "id": "Sencha",
-            "category": "Green Tea",
-            "categoryLevel": "Main Category",
-            "visibility": "Disabled"
+            "productID": "2",
+            "productName": "Chamomile Tea",
+            "productCategory": "Tea",
+            "quantity": "In Stock",
+            "productPrice": "800",
+            "visibility": "Enabled"
         },
         {
-            "id": "Earl Grey",
-            "category": "Black Tea",
-            "categoryLevel": "Main Category",
-            "visibility": "Disabled"
+            "productID": "3",
+            "productName": "Earl Grey Tea",
+            "productCategory": "Tea",
+            "quantity": "In Stock",
+            "productPrice": "1500",
+            "visibility": "Enabled"
         },
         {
-            "id": "Chamomile",
-            "category": "Herbal Tea",
-            "categoryLevel": "Main Category",
-            "visibility": "Disabled"
+            "productID": "4",
+            "productName": "Green Tea Bags",
+            "productCategory": "Tea",
+            "quantity": "In Stock",
+            "productPrice": "45",
+            "visibility": "Enabled"
         },
         {
-            "id": "Jasmine",
-            "category": "Green Tea",
-            "categoryLevel": "Main Category",
-            "visibility": "Disabled"
+            "productID": "5",
+            "productName": "Herbal Tea Assortment",
+            "productCategory": "Tea",
+            "quantity": "In Stock",
+            "productPrice": "3",
+            "visibility": "Enabled"
         },
         {
-            "id": "English Breakfast",
-            "category": "Black Tea",
-            "categoryLevel": "Main Category",
+            "productID": "6",
+            "productName": "Decaffeinated Tea",
+            "productCategory": "Tea",
+            "quantity": "Out of Stock",
+            "productPrice": "50",
             "visibility": "Disabled"
         },
+        // Add 6 dummy data rows here
         {
-            "id": "Peppermint",
-            "category": "Herbal Tea",
-            "categoryLevel": "Main Category",
-            "visibility": "Disabled"
+            "productID": "7",
+            "productName": "New Tea 1",
+            "productCategory": "Tea",
+            "quantity": "In Stock",
+            "productPrice": "15",
+            "visibility": "Enabled"
         },
         {
-            "id": "Oolong",
-            "category": "Semi-oxidized Tea",
-            "categoryLevel": "Main Category",
-            "visibility": "Disabled"
+            "productID": "8",
+            "productName": "New Tea 2",
+            "productCategory": "Tea",
+            "quantity": "In Stock",
+            "productPrice": "25",
+            "visibility": "Enabled"
         },
         {
-            "id": "Darjeeling",
-            "category": "Black Tea",
-            "categoryLevel": "Main Category",
-            "visibility": "Disabled"
+            "productID": "9",
+            "productName": "New Tea 3",
+            "productCategory": "Tea",
+            "quantity": "In Stock",
+            "productPrice": "10",
+            "visibility": "Enabled"
         },
         {
-            "id": "Matcha",
-            "category": "Green Tea",
-            "categoryLevel": "Main Category",
-            "visibility": "Disabled"
+            "productID": "10",
+            "productName": "New Tea 4",
+            "productCategory": "Tea",
+            "quantity": "In Stock",
+            "productPrice": "30",
+            "visibility": "Enabled"
+        },
+        {
+            "productID": "11",
+            "productName": "New Tea 5",
+            "productCategory": "Tea",
+            "quantity": "In Stock",
+            "productPrice": "12",
+            "visibility": "Enabled"
+        },
+        {
+            "productID": "12",
+            "productName": "New Tea 6",
+            "productCategory": "Tea",
+            "quantity": "In Stock",
+            "productPrice": "18",
+            "visibility": "Enabled"
         },
     ]);
+
 
     const openEditModal = (product) => {
         setIsEditModalOpen(true);
@@ -153,7 +197,7 @@ const Product = () => {
         e.preventDefault();
 
         const formDataToSend = {
-            productId: newProduct.productId,
+            productID: newProduct.productID,
             productName: newProduct.productName,
             productCategory: newProduct.productCategory,
             quantity: newProduct.quantity,
@@ -179,6 +223,21 @@ const Product = () => {
 
         closeAddModal();
     };
+
+    const fetchProductData = () => {
+        fetch('your-api-endpoint')
+            .then((response) => response.json())
+            .then((data) => {
+                setProducts(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
+
+    useEffect(() => {
+        fetchProductData();
+    }, []);
 
     const saveDetails = () => {
 
@@ -248,35 +307,34 @@ const Product = () => {
                         </thead>
 
                         <tbody>
-                            {products.map((product, index) => (
-                                <tr key={product.id}>
-                                    <th scope="row">{product.id}</th> {/* Product ID */}
-                                    <td>{product.name}</td> {/* Product Name */}
-                                    <td>{product.category}</td> {/* Product Category */}
-                                    <td>{product.quantity}</td> {/* Quantity */}
-                                    <td>{product.price}</td> {/* Product Price */}
-                                    <td>{product.visibility}</td> {/* Visibility */}
-                                    <td>
-                                        <button
-                                            className="btn custom-button"
-                                            onClick={() => openEditModal(product)}
-                                        >
-                                            <FontAwesomeIcon icon={faEdit} />
-                                        </button>
-                                        <button
-                                            className="btn custom-button"
-                                            onClick={() => handleVisibilityChange(product)}
-                                        >
-                                            <FontAwesomeIcon icon={faBan} />
-                                        </button>
-
-                                        <button className="btn custom-button">
-                                            <FontAwesomeIcon icon={faEllipsisH} />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
+    {products.map((product, index) => (
+        <tr key={product.productID}>
+            <th scope="row">{product.productID}</th>
+            <td>{product.productName}</td>
+            <td>{product.productCategory}</td>
+            <td>{product.quantity}</td>
+            <td>{product.productPrice}</td>
+            <td>{product.visibility}</td>
+            <td>
+                <button
+                    className="btn custom-button"
+                    onClick={() => openEditModal(product)}
+                >
+                    <FontAwesomeIcon icon={faEdit} />
+                </button>
+                <button
+                    className="btn custom-button"
+                    onClick={() => handleVisibilityChange(product)}
+                >
+                    <FontAwesomeIcon icon={faBan} />
+                </button>
+                <button className="btn custom-button">
+                    <FontAwesomeIcon icon={faEllipsisH} />
+                </button>
+            </td>
+        </tr>
+    ))}
+</tbody>
                     </table>
 
                     {/* Edit Product Modal */}
@@ -303,13 +361,13 @@ const Product = () => {
                         <form onSubmit={handleAddFormSubmit} className="mx-auto">
                             {/* Add Product Form */}
                             <div className="form-group">
-                                <label htmlFor="productId">Product ID:</label>
+                                <label htmlFor="productID">Product ID:</label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    id="productId"
-                                    name="productId"
-                                    value={newProduct.productId}
+                                    id="productID"
+                                    name="productID"
+                                    value={newProduct.productID}
                                     onChange={handleAddFormChange}
                                     style={{ width: '950px' }}
                                 />

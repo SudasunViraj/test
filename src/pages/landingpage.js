@@ -26,7 +26,7 @@ function LandingPage() {
             <div className="card" style={{ backgroundColor: '#8BC34A', marginBottom: '20px' }}>
               <div className="card-body">
                 <h5 className="card-title">Manage Employees</h5>
-                <p className="card-text">You can manage your employees here.</p>
+                <p className="card-text">You can manage your employee profiles and relevant information here.</p>
                 <Link to="/employee" className="btn btn-primary">Go to Employee Management</Link>
               </div>
             </div>
@@ -35,7 +35,7 @@ function LandingPage() {
             <div className="card" style={{ backgroundColor: '#8BC34A', marginBottom: '20px' }}>
               <div className="card-body">
                 <h5 className="card-title">Manage Products</h5>
-                <p className="card-text">You can manage your products here.</p>
+                <p className="card-text">You can manage your products details here.</p>
                 <Link to="/products" className="btn btn-primary">Go to Product Management</Link>
               </div>
             </div>
@@ -48,7 +48,7 @@ function LandingPage() {
             <div className="card" style={{ backgroundColor: '#8BC34A', marginBottom: '20px' }}>
               <div className="card-body">
                 <h5 className="card-title">Manage Suppliers</h5>
-                <p className="card-text">You can manage your suppliers here.</p>
+                <p className="card-text">You can manage your supplier details here.</p>
                 <Link to="/suppliers" className="btn btn-primary">Go to Supplier Management</Link>
               </div>
             </div>
@@ -57,7 +57,7 @@ function LandingPage() {
             <div className="card" style={{ backgroundColor: '#8BC34A', marginBottom: '20px' }}>
               <div className="card-body">
                 <h5 className="card-title">Manage Sales</h5>
-                <p className="card-text">You can manage your sales here.</p>
+                <p className="card-text">You can manage your sales details here.</p>
                 <Link to="/sales" className="btn btn-primary">Go to Sales Management</Link>
               </div>
             </div>
@@ -91,20 +91,30 @@ function LandingPage() {
             <div className="card" style={{ backgroundColor: '#8BC34A', marginBottom: '20px' }}>
               <div className="card-body">
                 <h5 className="card-title">Manage Orders</h5>
-                <p className="card-text">You can manage your Orders here.</p>
+                <p className="card-text">You can manage your Order details here.</p>
                 <Link to="/orders" className="btn btn-primary">Go to Orders Management</Link>
               </div>
             </div>
           </div>
-          {/* <div className="col-md-6 mx-auto">
+          <div className="col-md-6 mx-auto">
             <div className="card" style={{ backgroundColor: '#8BC34A', marginBottom: '20px' }}>
               <div className="card-body">
-                <h5 className="card-title">Reports Management</h5>
-                <p className="card-text">You can manage your reports here.</p>
-                <Link to="/rawmaterials" className="btn btn-primary">Go to Reports Management</Link>
+                <h5 className="card-title">Manage Users</h5>
+                <p className="card-text">You can manage system users here.</p>
+                <Link to="/rawmaterials" className="btn btn-primary">Go to User Management</Link>
               </div>
             </div>
-          </div> */}
+          </div>
+
+          <div className="col-md-6 mx-auto">
+            <div className="card" style={{ backgroundColor: '#8BC34A', marginBottom: '20px' }}>
+              <div className="card-body">
+                <h5 className="card-title">Manage Reports</h5>
+                <p className="card-text">You can manage your Reports here.</p>
+                <Link to="/reports" className="btn btn-primary">Go to User Management</Link>
+              </div>
+            </div>
+          </div>
         </div>
 
 

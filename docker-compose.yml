@@ -1,0 +1,148 @@
+version: '3.7'
+
+services:
+#  appigo-auth-apache:
+#    image: hms_test/apache
+#    build:
+#      context: ../apache
+#      dockerfile: Dockerfile.dev
+#    volumes:
+#      - ${APACHE_HTTPD_CONF_VOLUME}:/usr/local/apache2/conf/httpd.conf
+#      - ${APACHE_MPM_CONF_VOLUME}:/usr/local/apache2/conf/extra/httpd-mpm.conf
+#      - ${APACHE_SSL_CONF_VOLUME}:/usr/local/apache2/conf/extra/httpd-ssl.conf
+#      - ${APACHE_LOG_VOLUME}:/hms/logs/apache
+#      - ${APACHE_CERT_LOCATION}:/usr/local/apache2/conf/hms.crt
+#      - ${APACHE_CERT_KEY_LOCATION}:/usr/local/apache2/conf/hms.key
+#    networks:
+#      appigo_auth_mesh:
+#        aliases:
+#          - appigo-auth-apache
+#    ports:
+#      - 443:443
+#    restart: always
+
+  # appigo-auth-apache:
+  #   image: httpd:2.4.46
+  #   volumes:
+  #     - ./apache/conf:/usr/local/apache2/conf
+  #     - ${APACHE_LOG_VOLUME}:/usr/local/apache2/logs
+  #   ports:
+  #     - 443:443
+  #     - 80:80
+  #   extra_hosts:
+  #     - dockerhost:172.17.0.1
+  #   networks:
+  #     appigo_auth_mesh:
+  #       aliases:
+  #         - www.appigo-auth.com
+
+  appigo-auth-mongo:
+    image: mongo:4.0.10
+    container_name: appigo-auth-mongo
+    volumes:
+    - ${MONGO_ADD_CATEGORY_DATA_SCRIPT}:/docker-entrypoint-initdb.d/001.js
+    - ${MONGO_ADD_APPLOVA_CONFIG}:/docker-entrypoint-initdb.d/002.js
+    - ${MONGO_GLOBAL_CONFIG}:/docker-entrypoint-initdb.d/003.js
+    - ${MONGO_DATA}:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    ports:
+    - "27217:27017"
+    networks:
+      appigo_auth_mesh:
+        aliases:
+        - app-auth-mongo
+    restart: always
+
+  appigo-auth-sms-server:
+    image: repo.hsenidmobile.com/appigo/sms-authenticator:0.1.0
+    container_name: appigo-sms-authenticator
+    volumes:
+      - /hms/logs/appigo-auth/sms-auth:/hms/logs/appigo-auth/sms-auth
+    ports:
+      - "11000:10000"
+    environment:
+      - MONGO_DATABASE=appigo-auth
+      - MONGO_PORT=27017
+      - MONGO_HOST=app-auth-mongo
+      - SMS_SENDER_URL=http://localhost:3100/sms-authenticator/send-otp
+      - SUPPORT_EMAIL_SENDER_URL=http://localhost:3100/sms-authenticator/send-support-email
+      - REGISTERED_USERS_SMS_TPS=5
+      - REGISTERED_USERS_SMS_TPD=100
+      - NEW_USERS_SMS_TPS=5
+      - NEW_USERS_SMS_TPD=50
+      - TPD_ALERT_THRESHOLD_PERCENTAGE=80
+      - TALITO_API_KEY=5402b79e-e117-458a-81fd-5ccccce3d01e
+      - TALITO_API_CLIENT_ID=c21zfDEyMXwx
+      - TALITO_URL=https://space.talito.io/sms-api/v1/send
+      - TALITO_SENDER_ADDRESS=Talito
+      - COUNTRY_CODE=LK
+      - LOGIN_MSISDN_BACK_BTN_URL=https://localhost:3000/loginback
+      - REG_TOS_URL=https://rushdev.hsenidmobile.com/terms-of-service
+      - REG_PRIVACY_URL=https://rushdev.hsenidmobile.com/privacy-policy
+      - OTP_TIME_STEP=1
+      - OTP_TIME_STEP_UNIT=seconds
+      - OTP_DIGITS=6
+      - MAX_OTP_ATTEMPTS=3000
+      - MAX_OTP_RESENT_ATTEMPTS=3000
+      - MAX_PASSWORD_ATTEMPTS=5
+      - RECAPTCHA_ENABLED=false
+      - RECAPTCHA_VERIFY_URL=https://www.google.com/recaptcha/api/siteverify
+      - RECAPTCHA_SITE_KEY=6LfHNg0lAAAAAAtqYvR4iO4Lnw9z6cLSRlAz65BJ
+      - RECAPTCHA_SECRET_KEY=6LfHNg0lAAAAABsViCrdOzsvzjAtN-90UtBRZAtv
+    networks:
+      appigo_auth_mesh:
+        aliases:
+          - app-auth-sms-server
+    restart: always
+
+  appigo-auth-db:
+    image: mysql:8.0.16
+    build:
+      context: ../mysql
+      dockerfile: Dockerfile.dev
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ${MYSQL_DATA_VOLUME}:/var/lib/mysql
+      - ${MYSQL_LOG_VOLUME}:/var/log/mysql
+    networks:
+      appigo_auth_mesh:
+        aliases:
+          - appigo-auth-db
+    restart: always
+    ports:
+      - 33081:3306
+    environment:
+      MYSQL_USER: ${APPIGO_AUTH_MYSQL_DB_USER}
+      MYSQL_PASSWORD: ${APPIGO_AUTH_MYSQL_DB_PWD}
+      MYSQL_ROOT_PASSWORD: ${APPIGO_AUTH_MYSQL_ROOT_DB_PWD}
+      MYSQL_DATABASE: ${APPIGO_AUTH_MYSQL_DATABASE}
+
+  appigo-auth-keycloak:
+    build:
+      context: ../keycloak
+      dockerfile: Dockerfile.dev
+    ports:
+      - 9091:8080
+    environment:
+      DB_VENDOR: MYSQL
+      DB_ADDR:  appigo-auth-db
+      DB_DATABASE: ${APPIGO_AUTH_MYSQL_DATABASE}
+      DB_USER: ${APPIGO_AUTH_MYSQL_DB_USER}
+      DB_PASSWORD: ${APPIGO_AUTH_MYSQL_DB_PWD}
+      KEYCLOAK_USER: ${APPIGO_AUTH_KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${APPIGO_AUTH_KEYCLOAK_PASSWORD}
+      PROXY_ADDRESS_FORWARDING: "true"
+    volumes:
+      - ${APPIGO_AUTH_KEYCLOAK_LOGIN_THEME_FILE_PATH}:/opt/jboss/keycloak/themes/loginTheme
+      - ${APPIGO_AUTH_KEYCLOAK_LOG_VOLUME}:/opt/jboss/keycloak/standalone/log/
+    depends_on:
+      - appigo-auth-db
+    restart: always
+    networks:
+      appigo_auth_mesh:
+        aliases:
+          - appigo-auth-keycloak
+
+networks:
+  appigo_auth_mesh: {}

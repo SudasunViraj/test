@@ -223,7 +223,7 @@ const Suppliers = () => {
                 <th scope="col">NAME</th>
                 <th scope="col">PHONE NUMBER</th>
                 <th scope="col">ADDRESS</th>
-                <th scope="col">SIGN UP CHANNEL</th>
+                {/* <th scope="col">SIGN UP CHANNEL</th> */}
                 <th scope="col">EMAIL</th>
                 <th scope="col">REGISTERED DATE</th>
               </tr>
@@ -236,7 +236,7 @@ const Suppliers = () => {
                   <td>{supplier.name}</td>
                   <td>{supplier.phoneNumber}</td>
                   <td>{supplier.address}</td>
-                  <td>
+                  {/* <td>
                     {supplier.signUpChannel === 'Online' && (
                       <span style={{ backgroundColor: 'brown', borderRadius: '50px', padding: '5px', color: 'white' }}>
                         {supplier.signUpChannel}
@@ -250,7 +250,7 @@ const Suppliers = () => {
                     {supplier.signUpChannel !== 'Online' && supplier.signUpChannel !== 'In-Store' && (
                       <span>{supplier.signUpChannel}</span>
                     )}
-                  </td>
+                  </td> */}
                   <td>{supplier.email}</td>
                   <td>{supplier.registeredDate}</td>
                 </tr>

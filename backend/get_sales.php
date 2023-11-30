@@ -1,9 +1,14 @@
 <?php
-// Replace these with your actual database credentials
-$servername = "your_server_name";
-$username = "your_username";
-$password = "your_password";
-$dbname = "your_database_name";
+
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+header('Content-Type: application/json');
+
+$servername = "127.0.0.1";
+$username = "root";
+$password = "";
+$dbname = "project";
 
 // Establish a database connection
 $conn = new mysqli($servername, $username, $password, $dbname);

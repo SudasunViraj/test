@@ -1,33 +1,31 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import '../pages/customers.css'; // You can create a customer-specific CSS file.
 import axios from 'axios';
 import customersBackground from '../images/customersbackground.jpg';
 
-
-
 const Customers = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [newCustomer, setNewCustomer] = useState({
-    'Order ID': '',
-    'Customer Name': '',
-    'Phone Number': '',
+    'OrderID': '',
+    'CustomerName': '',
+    'PhoneNumber': '',
     'Address': '',
-    'E-Mail': '',
-    'Created Date': '',
+    'EMail': '',
+    'CreatedDate': '',
   });
   const [customers, setCustomers] = useState([
     {
       id: 1,
-      'Order ID': '1',
-      'Customer Name': 'Customer 1',
-      'Phone Number': '123-456-7890',
+      'OrderID': '1',
+      'CustomerName': 'Customer 1',
+      'PhoneNumber': '123-456-7890',
       'Address': '123 Main St, City',
-      'E-Mail': 'customer1@example.com',
-      'Created Date': '2023-09-10',
+      'EMail': 'customer1@example.com',
+      'CreatedDate': '2023-09-10',
     },
     // Add more customer data here...
   ]);
@@ -44,25 +42,67 @@ const Customers = () => {
     setShowModal(true);
   };
 
+
+  const formData = new URLSearchParams(newCustomer);
+  
   const handleCloseModal = () => {
     setShowModal(false);
   };
 
   const handleSaveCustomer = () => {
     setShowModal(false);
-
-    setCustomers((prevArray) => [...prevArray, newCustomer]);
-
+  
+    // Make an HTTP POST request to your API endpoint to save the customer data
+    axios.post('your-api-endpoint-url', {
+      OrderID: newCustomer.OrderID,
+      CustomerName: newCustomer.CustomerName,
+      PhoneNumber: newCustomer.PhoneNumber,
+      Address: newCustomer.Address,
+      Email: newCustomer.EMail, 
+      CreatedDate: newCustomer.CreatedDate,
+    })
+    
+    .then(response => {
+      // Handle the response if needed
+      console.log('Customer data saved successfully:', response.data);
+    })
+    .catch(error => {
+      // Handle errors if the request fails
+      console.error('Error saving customer data:', error);
+    });
+  
     // Clear the newCustomer state
     setNewCustomer({
-      'Order ID': '',
-      'Customer Name': '',
-      'Phone Number': '',
-      'Address': '',
-      'E-Mail': '',
-      'Created Date': '',
+      OrderID: '',
+      CustomerName: '',
+      PhoneNumber: '',
+      Address: '',
+      EMail: '',
+      CreatedDate: '',
     });
   };
+      
+
+
+
+  const [fetchedCustomers, setFetchedCustomers] = useState([]);
+
+  // Function to fetch data from the backend
+  const fetchDataFromBackend = () => {
+    axios.get('your-fetch-data-api-endpoint')
+      .then(response => {
+        // Update the state with the fetched data
+        setFetchedCustomers(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  };
+
+  useEffect(() => {
+    // Fetch data when the component loads
+    fetchDataFromBackend();
+  }, []); 
 
   const handleCustomerInputChange = (e) => {
     const { name, value } = e.target;
@@ -148,11 +188,11 @@ const Customers = () => {
               {filteredCustomers.map((item, index) => (
                 <tr key={index}>
                   <th scope="row">{index + 1}</th>
-                  <td>{item['Customer Name']}</td>
-                  <td>{item['Phone Number']}</td>
+                  <td>{item['CustomerName']}</td>
+                  <td>{item['PhoneNumber']}</td>
                   <td>{item['Address']}</td>
-                  <td>{item['E-Mail']}</td>
-                  <td>{item['Created Date']}</td>
+                  <td>{item['EMail']}</td>
+                  <td>{item['CreatedDate']}</td>
                 </tr>
               ))}
             </tbody>
@@ -162,17 +202,17 @@ const Customers = () => {
               <Modal.Title>Add Customer</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <form method="POST" action="backend/add_customer.php">
+              <form method="POST" action="backend/add_buyers.php">
                 {/* Customer input fields with renamed labels */}
                 <div className="mb-3">
-                  <label htmlFor="orderID" className="form-label">
+                  <label htmlFor="OrderID" className="form-label">
                     Order ID:
                   </label>
                   <input
                     type="text"
                     className="form-control"
-                    id="orderID"
-                    name="orderID"
+                    id="OrderID"
+                    name="OrderID"
                     value={newCustomer['Order ID']}
                     onChange={handleCustomerInputChange}
                   />
@@ -184,47 +224,47 @@ const Customers = () => {
                   <input
                     type="text"
                     className="form-control"
-                    id="name"
-                    name="name"
+                    id="CustomerName"
+                    name="CustomerName"
                     value={newCustomer['Customer Name']}
                     onChange={handleCustomerInputChange}
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="phoneNumber" className="form-label">
+                  <label htmlFor="PhoneNumber" className="form-label">
                     Phone Number:
                   </label>
                   <input
                     type="text"
                     className="form-control"
-                    id="phoneNumber"
-                    name="phoneNumber"
+                    id="PhoneNumber"
+                    name="PhoneNumber"
                     value={newCustomer['Phone Number']}
                     onChange={handleCustomerInputChange}
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="address" className="form-label">
+                  <label htmlFor="Address" className="form-label">
                     Address:
                   </label>
                   <input
                     type="text"
                     className="form-control"
-                    id="address"
-                    name="address"
+                    id="Address"
+                    name="Address"
                     value={newCustomer['Address']}
                     onChange={handleCustomerInputChange}
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
+                  <label htmlFor="EMail" className="form-label">
                     E-Mail:
                   </label>
                   <input
                     type="text"
                     className="form-control"
-                    id="email"
-                    name="email"
+                    id="EMail"
+                    name="EMail"
                     value={newCustomer['E-Mail']}
                     onChange={handleCustomerInputChange}
                   />
@@ -237,7 +277,7 @@ const Customers = () => {
                     type="date"
                     className="form-control"
                     id="createdDate"
-                    name="createdDate"
+                    name="CreatedDate"
                     value={newCustomer['Created Date']}
                     onChange={handleCustomerInputChange}
                   />
